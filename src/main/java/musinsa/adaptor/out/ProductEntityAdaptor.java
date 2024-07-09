@@ -2,11 +2,12 @@ package musinsa.adaptor.out;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import musinsa.application.port.out.ProductRepositoryPort;
+import musinsa.application.port.out.command.SaveProductCommand;
 import musinsa.domain.ProductDomain;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,17 @@ class ProductEntityAdaptor implements ProductRepositoryPort {
 
     @Override
     public List<ProductDomain> loadAllProductDomainList() {
-        return productEntityRepository.findAll().stream().map(productEntityAdaptorMapper::toProductDomain).collect(
-                Collectors.toList());
+        return productEntityRepository.findAll().stream().map(productEntityAdaptorMapper::toProductDomain).toList();
+    }
+
+
+    @Override
+    public void saveProductList(List<SaveProductCommand> saveProductCommandList) {
+
+        List<ProductEntity> productEntityList =
+                saveProductCommandList.stream().map(productEntityAdaptorMapper::toProductEntity).toList();
+
+        productEntityRepository.saveAll(productEntityList);
     }
 
 
@@ -30,5 +40,8 @@ class ProductEntityAdaptor implements ProductRepositoryPort {
     interface ProductEntityAdaptorMapper {
 
         ProductDomain toProductDomain(ProductEntity productEntity);
+
+        @Mapping(target = "id", ignore = true)
+        ProductEntity toProductEntity(SaveProductCommand saveProductCommand);
     }
 }

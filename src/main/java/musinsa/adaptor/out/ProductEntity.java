@@ -5,11 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class ProductEntity {
+@Table(name = "product")
+class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +20,11 @@ public class ProductEntity {
     private String category;
     private long price;
 
+
     protected ProductEntity() {
 
     }
+
 
     public ProductEntity(String brand, String category, int price) {
         this.brand = brand;
