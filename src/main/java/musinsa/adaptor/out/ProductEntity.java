@@ -1,4 +1,4 @@
-package musinsa.data;
+package musinsa.adaptor.out;
 
 
 import jakarta.persistence.Entity;
@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Product {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,11 @@ public class Product {
     private String category;
     private long price;
 
-    protected Product() {
+    protected ProductEntity() {
 
     }
 
-    public Product(String brand, String category, int price) {
+    public ProductEntity(String brand, String category, int price) {
         this.brand = brand;
         this.category = category;
         this.price = price;

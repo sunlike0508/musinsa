@@ -1,4 +1,4 @@
-package musinsa.data;
+package musinsa.adaptor.out;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,11 +14,11 @@ import org.springframework.core.io.ClassPathResource;
 
 
 @DataJpaTest
-class ProductRepositoryTest {
+class ProductEntityRepositoryTest {
 
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductEntityRepository productEntityRepository;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -27,14 +27,14 @@ class ProductRepositoryTest {
 
         File jsonFile = new ClassPathResource("product/product.json").getFile();
 
-        List<Product> productList = Arrays.asList(objectMapper.readValue(jsonFile, Product[].class));
+        List<ProductEntity> productList = Arrays.asList(objectMapper.readValue(jsonFile, ProductEntity[].class));
 
-        productRepository.saveAll(productList);
+        productEntityRepository.saveAll(productList);
     }
 
     @Test
     void findAll() {
-        List<Product> productList = productRepository.findAll();
+        List<ProductEntity> productList = productEntityRepository.findAll();
 
         Assertions.assertThat(productList).hasSize(1);
         Assertions.assertThat(productList.get(0).getBrand()).isEqualTo("A");
