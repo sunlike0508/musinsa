@@ -50,6 +50,6 @@ class ProductEntityAdaptorTest {
 
         List<ProductDomain> productDomainList = productEntityAdaptor.loadAllProductDomainList();
 
-        Assertions.assertThat(productDomainList).hasSize(1);
+        Assertions.assertThat(productDomainList).hasSize(72);
     }
 }

@@ -20,6 +20,7 @@ class ProductEntityRepositoryTest {
     @Autowired
     private ProductEntityRepository productEntityRepository;
 
+
     @BeforeEach
     void setUp() throws IOException {
 
@@ -32,11 +33,12 @@ class ProductEntityRepositoryTest {
         productEntityRepository.saveAll(productList);
     }
 
+
     @Test
     void findAll() {
         List<ProductEntity> productList = productEntityRepository.findAll();
 
-        Assertions.assertThat(productList).hasSize(1);
+        Assertions.assertThat(productList).hasSize(72);
         Assertions.assertThat(productList.get(0).getBrand()).isEqualTo("A");
         Assertions.assertThat(productList.get(0).getCategory()).isEqualTo("상의");
         Assertions.assertThat(productList.get(0).getPrice()).isEqualTo(11200);
