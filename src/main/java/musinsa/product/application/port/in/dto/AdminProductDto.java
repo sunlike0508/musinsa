@@ -4,15 +4,17 @@ import lombok.Builder;
 import lombok.Value;
 
 @Value
-public class ProductDto {
+public class AdminProductDto {
 
+    long id;
     String brand;
     String category;
     long price;
 
 
     @Builder
-    private ProductDto(String brand, String category, long price) {
+    private AdminProductDto(long id, String brand, String category, long price) {
+        this.id = id;
         this.brand = brand;
         this.category = category;
         this.price = price;

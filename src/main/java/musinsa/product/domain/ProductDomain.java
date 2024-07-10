@@ -6,13 +6,15 @@ import lombok.Value;
 @Value
 public class ProductDomain {
 
+    long id;
     String brand;
     String category;
     long price;
 
 
     @Builder
-    private ProductDomain(String brand, String category, long price) {
+    private ProductDomain(long id, String brand, String category, long price) {
+        this.id = id;
         this.brand = brand;
         this.category = category;
         this.price = price;

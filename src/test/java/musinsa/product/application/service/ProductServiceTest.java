@@ -3,7 +3,7 @@ package musinsa.product.application.service;
 import java.util.List;
 import musinsa.product.adaptor.in.dto.EnrollProductDto;
 import musinsa.product.adaptor.in.dto.UpdateProductDto;
-import musinsa.product.application.port.in.dto.ProductDto;
+import musinsa.product.application.port.in.dto.AdminProductDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
@@ -47,7 +47,7 @@ class ProductServiceTest {
 
         given(productPersistencePort.loadAllProductDomainList()).willReturn(List.of(productDomain1, productDomain2));
 
-        List<ProductDto> productList = productService.getProductList();
+        List<AdminProductDto> productList = productService.getProductList();
 
         Assertions.assertThat(productList).hasSize(2);
     }
@@ -59,10 +59,10 @@ class ProductServiceTest {
 
         given(productPersistencePort.saveProduct(any(SaveProductCommand.class))).willReturn(productDomain);
 
-        ProductDto productDto =
+        AdminProductDto adminProductDto =
                 productService.enrollProduct(EnrollProductDto.builder().brand("A").category("상의").price(1000).build());
 
-        Assertions.assertThat(productDto.getBrand()).isEqualTo("A");
+        Assertions.assertThat(adminProductDto.getBrand()).isEqualTo("A");
     }
 
 
@@ -72,10 +72,10 @@ class ProductServiceTest {
 
         given(productPersistencePort.updateProduct(eq(1L), any(UpdateProductCommand.class))).willReturn(productDomain);
 
-        ProductDto productDto = productService.updateProduct(1L,
+        AdminProductDto adminProductDto = productService.updateProduct(1L,
                 UpdateProductDto.builder().brand("A").category("상의").price(1000).build());
 
-        Assertions.assertThat(productDto.getCategory()).isEqualTo("바지");
+        Assertions.assertThat(adminProductDto.getCategory()).isEqualTo("바지");
     }
 
 
