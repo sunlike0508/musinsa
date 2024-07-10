@@ -21,3 +21,7 @@ Content-Type: application/json
   "category": "바지",
   "price": 1000
 }
+
+### 상품 삭제
+DELETE http://localhost:8080/products/72
+Content-Type: application/json

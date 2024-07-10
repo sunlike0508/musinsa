@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import musinsa.product.adaptor.in.dto.EnrollProductDto;
 import musinsa.product.adaptor.in.dto.UpdateProductDto;
+import musinsa.product.application.port.in.DeleteProductUseCase;
 import musinsa.product.application.port.in.EnrollProductUseCase;
 import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.UpdateProductUseCase;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateProductUseCase {
+class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateProductUseCase, DeleteProductUseCase {
 
     private final ProductPersistencePort productPersistencePort;
     private final ProductServiceMapper productServiceMapper;
@@ -49,6 +50,12 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
                 productPersistencePort.updateProduct(id, productServiceMapper.toUpdateProductCommand(updateProductDto));
 
         return productServiceMapper.toProductDto(productDomain);
+    }
+
+
+    @Override
+    public void deleteProduct(long id) {
+        productPersistencePort.deleteProduct(id);
     }
 
 
