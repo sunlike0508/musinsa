@@ -9,7 +9,7 @@ import musinsa.product.application.port.in.DeleteProductUseCase;
 import musinsa.product.application.port.in.EnrollProductUseCase;
 import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.UpdateProductUseCase;
-import musinsa.product.application.port.in.dto.ProductDto;
+import musinsa.product.application.port.in.dto.AdminProductDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ProductController {
+public class AdminProductController {
 
     private final GetProductUseCase getProductUseCase;
     private final EnrollProductUseCase enrollProductUseCase;
@@ -31,7 +31,7 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDto>> getProductList() {
+    public ResponseEntity<List<AdminProductDto>> getProductList() {
         return new ResponseEntity<>(getProductUseCase.getProductList(), HttpStatus.OK);
     }
 
@@ -44,11 +44,11 @@ public class ProductController {
      */
 
     @PostMapping("/product")
-    public ResponseEntity<ProductDto> enrollProduct(@RequestBody EnrollProductDto enrollProductDto) {
+    public ResponseEntity<AdminProductDto> enrollProduct(@RequestBody EnrollProductDto enrollProductDto) {
 
-        ProductDto productDto = enrollProductUseCase.enrollProduct(enrollProductDto);
+        AdminProductDto adminProductDto = enrollProductUseCase.enrollProduct(enrollProductDto);
 
-        return new ResponseEntity<>(productDto, HttpStatus.OK);
+        return new ResponseEntity<>(adminProductDto, HttpStatus.OK);
     }
 
 
@@ -61,12 +61,12 @@ public class ProductController {
      */
 
     @PatchMapping("/products/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable(name = "id") long id,
+    public ResponseEntity<AdminProductDto> updateProduct(@PathVariable(name = "id") long id,
             @RequestBody UpdateProductDto updateProductDto) {
 
-        ProductDto productDto = updateProductUseCase.updateProduct(id, updateProductDto);
+        AdminProductDto adminProductDto = updateProductUseCase.updateProduct(id, updateProductDto);
 
-        return new ResponseEntity<>(productDto, HttpStatus.OK);
+        return new ResponseEntity<>(adminProductDto, HttpStatus.OK);
     }
 
 
@@ -77,7 +77,7 @@ public class ProductController {
      * @return empty response
      */
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<ProductDto> deleteProduct(@PathVariable(name = "id") long id) {
+    public ResponseEntity<AdminProductDto> deleteProduct(@PathVariable(name = "id") long id) {
 
         deleteProductUseCase.deleteProduct(id);
 

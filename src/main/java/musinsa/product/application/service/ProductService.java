@@ -8,7 +8,7 @@ import musinsa.product.application.port.in.DeleteProductUseCase;
 import musinsa.product.application.port.in.EnrollProductUseCase;
 import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.UpdateProductUseCase;
-import musinsa.product.application.port.in.dto.ProductDto;
+import musinsa.product.application.port.in.dto.AdminProductDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
@@ -27,14 +27,14 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
 
     @Override
-    public List<ProductDto> getProductList() {
+    public List<AdminProductDto> getProductList() {
         return productPersistencePort.loadAllProductDomainList().stream().map(productServiceMapper::toProductDto)
                 .toList();
     }
 
 
     @Override
-    public ProductDto enrollProduct(EnrollProductDto enrollProductDto) {
+    public AdminProductDto enrollProduct(EnrollProductDto enrollProductDto) {
 
         ProductDomain productDomain =
                 productPersistencePort.saveProduct(productServiceMapper.toSaveProductCommand(enrollProductDto));
@@ -44,7 +44,7 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
 
     @Override
-    public ProductDto updateProduct(long id, UpdateProductDto updateProductDto) {
+    public AdminProductDto updateProduct(long id, UpdateProductDto updateProductDto) {
 
         ProductDomain productDomain =
                 productPersistencePort.updateProduct(id, productServiceMapper.toUpdateProductCommand(updateProductDto));
@@ -62,7 +62,7 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
     @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
     interface ProductServiceMapper {
 
-        ProductDto toProductDto(ProductDomain productDomain);
+        AdminProductDto toProductDto(ProductDomain productDomain);
 
         SaveProductCommand toSaveProductCommand(EnrollProductDto enrollProductDto);
 
