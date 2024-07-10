@@ -2,15 +2,18 @@ package musinsa.product.application.service;
 
 import java.util.List;
 import musinsa.product.adaptor.in.dto.EnrollProductDto;
+import musinsa.product.adaptor.in.dto.UpdateProductDto;
 import musinsa.product.application.port.in.dto.ProductDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
+import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.domain.ProductDomain;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -57,5 +60,18 @@ class ProductServiceTest {
                 productService.enrollProduct(EnrollProductDto.builder().brand("A").category("상의").price(1000).build());
 
         Assertions.assertThat(productDto.getBrand()).isEqualTo("A");
+    }
+
+
+    @Test
+    void updateProductTest() {
+        ProductDomain productDomain = ProductDomain.builder().category("바지").build();
+
+        given(productPersistencePort.updateProduct(eq(1L), any(UpdateProductCommand.class))).willReturn(productDomain);
+
+        ProductDto productDto = productService.updateProduct(1L,
+                UpdateProductDto.builder().brand("A").category("상의").price(1000).build());
+
+        Assertions.assertThat(productDto.getCategory()).isEqualTo("바지");
     }
 }

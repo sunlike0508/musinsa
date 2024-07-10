@@ -3,11 +3,14 @@ package musinsa.product.application.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import musinsa.product.adaptor.in.dto.EnrollProductDto;
+import musinsa.product.adaptor.in.dto.UpdateProductDto;
 import musinsa.product.application.port.in.EnrollProductUseCase;
 import musinsa.product.application.port.in.GetProductUseCase;
+import musinsa.product.application.port.in.UpdateProductUseCase;
 import musinsa.product.application.port.in.dto.ProductDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
+import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.domain.ProductDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class ProductService implements GetProductUseCase, EnrollProductUseCase {
+class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateProductUseCase {
 
     private final ProductPersistencePort productPersistencePort;
     private final ProductServiceMapper productServiceMapper;
@@ -39,11 +42,23 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase {
     }
 
 
+    @Override
+    public ProductDto updateProduct(long id, UpdateProductDto updateProductDto) {
+
+        ProductDomain productDomain =
+                productPersistencePort.updateProduct(id, productServiceMapper.toUpdateProductCommand(updateProductDto));
+
+        return productServiceMapper.toProductDto(productDomain);
+    }
+
+
     @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
     interface ProductServiceMapper {
 
         ProductDto toProductDto(ProductDomain productDomain);
 
         SaveProductCommand toSaveProductCommand(EnrollProductDto enrollProductDto);
+
+        UpdateProductCommand toUpdateProductCommand(UpdateProductDto updateProductDto);
     }
 }

@@ -11,3 +11,13 @@ Content-Type: application/json
   "category": "상의",
   "price": 1000
 }
+
+### 상품 수정
+PATCH http://localhost:8080/products/73
+Content-Type: application/json
+
+{
+  "brand": "Z",
+  "category": "바지",
+  "price": 1000
+}

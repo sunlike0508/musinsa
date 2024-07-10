@@ -7,23 +7,24 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "product")
+@NoArgsConstructor
+@DynamicUpdate
 class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String brand;
     private String category;
     private long price;
-
-
-    protected ProductEntity() {
-
-    }
 
 
     public ProductEntity(String brand, String category, int price) {
