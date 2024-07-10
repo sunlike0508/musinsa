@@ -1,0 +1,13 @@
+### 상품 조회
+GET http://localhost:8080/products
+Content-Type: application/json
+
+### 상품 등록
+POST http://localhost:8080/product
+Content-Type: application/json
+
+{
+  "brand": "K",
+  "category": "상의",
+  "price": 1000
+}

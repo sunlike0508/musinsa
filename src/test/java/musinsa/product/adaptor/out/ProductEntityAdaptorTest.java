@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.domain.ProductDomain;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -51,5 +53,18 @@ class ProductEntityAdaptorTest {
         List<ProductDomain> productDomainList = productEntityAdaptor.loadAllProductDomainList();
 
         Assertions.assertThat(productDomainList).hasSize(72);
+    }
+
+
+    @Test
+    void saveProductTest() {
+
+        given(productEntityRepository.save(any(ProductEntity.class))).willReturn(new ProductEntity("K", "상의", 1000));
+
+        ProductDomain productDomain = productEntityAdaptor.saveProduct(
+                SaveProductCommand.builder().brand("K").category("상의").price(1000).build());
+
+        Assertions.assertThat(productDomain.getCategory()).isEqualTo("상의");
+        Assertions.assertThat(productDomain.getPrice()).isEqualTo(1000);
     }
 }

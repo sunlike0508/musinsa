@@ -1,4 +1,4 @@
-package musinsa;
+package musinsa.config;
 
 
 import java.io.File;
@@ -8,7 +8,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
-import musinsa.product.application.port.out.ProductRepositoryPort;
+import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 class InitDataProcess implements CommandLineRunner {
 
-    private final ProductRepositoryPort productRepositoryPort;
+    private final ProductPersistencePort productPersistencePort;
 
 
     @Override
@@ -30,6 +30,6 @@ class InitDataProcess implements CommandLineRunner {
         List<SaveProductCommand> saveProductCommandList =
                 gson.fromJson(new FileReader(jsonFile), new TypeToken<List<SaveProductCommand>>() {}.getType());
 
-        productRepositoryPort.saveProductList(saveProductCommandList);
+        productPersistencePort.saveProductList(saveProductCommandList);
     }
 }
