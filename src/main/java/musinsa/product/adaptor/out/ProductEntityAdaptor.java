@@ -73,6 +73,15 @@ class ProductEntityAdaptor implements ProductPersistencePort {
     }
 
 
+    @Override
+    public void deleteProduct(long id) {
+        ProductEntity productEntity =
+                productEntityRepository.findById(id).orElseThrow(() -> new NoSuchElementException("등록된 상품이 아닙니다."));
+
+        productEntityRepository.delete(productEntity);
+    }
+
+
     @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
     interface ProductEntityAdaptorMapper {
 

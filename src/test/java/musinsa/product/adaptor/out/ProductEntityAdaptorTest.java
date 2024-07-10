@@ -19,8 +19,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
@@ -83,7 +86,7 @@ class ProductEntityAdaptorTest {
         Throwable thrown = catchThrowable(() -> productEntityAdaptor.updateProduct(1L,
                 UpdateProductCommand.builder().brand("K").category("상의").price(1000).build()));
 
-        assertThat(thrown).as("등록된 상품이 아닙니다.\"").isInstanceOf(NoSuchElementException.class);
+        assertThat(thrown).as("등록된 상품이 아닙니다.").isInstanceOf(NoSuchElementException.class);
     }
 
 
@@ -91,12 +94,13 @@ class ProductEntityAdaptorTest {
     @DisplayName("브랜드만 업데이트 하는 경우 테스트")
     void updateProductTest_when_update_only_brand() {
         ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(1L);
         productEntity.setBrand("A");
         productEntity.setCategory("상의");
         productEntity.setPrice(1000);
 
         given(productEntityRepository.findById(1L)).willReturn(Optional.of(productEntity));
-        
+
         ProductDomain productDomain =
                 productEntityAdaptor.updateProduct(1L, UpdateProductCommand.builder().brand("K").build());
 
@@ -111,6 +115,7 @@ class ProductEntityAdaptorTest {
     @DisplayName("카테고리만 업데이트 하는 경우 테스트")
     void updateProductTest_when_update_only_category() {
         ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(1L);
         productEntity.setBrand("A");
         productEntity.setCategory("상의");
         productEntity.setPrice(1000);
@@ -123,5 +128,31 @@ class ProductEntityAdaptorTest {
         assertThat(productDomain.getBrand()).isEqualTo("A");
         assertThat(productDomain.getCategory()).isEqualTo("바지");
         assertThat(productDomain.getPrice()).isEqualTo(1000);
+    }
+
+
+    @Test
+    @DisplayName("상품 삭제 할 때 상품이 없는 경우 테스트")
+    void deleteProductTest_when_product_no_exist() {
+        given(productEntityRepository.findById(1L)).willReturn(Optional.empty());
+
+        Throwable thrown = catchThrowable(() -> productEntityAdaptor.deleteProduct(1L));
+
+        assertThat(thrown).as("등록된 상품이 아닙니다.").isInstanceOf(NoSuchElementException.class);
+    }
+
+
+    @Test
+    void deleteProductTest() {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(1L);
+
+        given(productEntityRepository.findById(1L)).willReturn(Optional.of(productEntity));
+
+        willDoNothing().given(productEntityRepository).delete(productEntity);
+
+        productEntityAdaptor.deleteProduct(1L);
+
+        then(productEntityRepository).should(times(1)).delete(productEntity);
     }
 }

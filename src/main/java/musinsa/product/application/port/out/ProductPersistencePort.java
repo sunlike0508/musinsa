@@ -14,4 +14,6 @@ public interface ProductPersistencePort {
     void saveProductList(List<SaveProductCommand> saveProductCommandList);
 
     ProductDomain updateProduct(long id, UpdateProductCommand updateProductCommand);
+
+    void deleteProduct(long id);
 }

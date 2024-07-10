@@ -15,8 +15,11 @@ import org.mapstruct.factory.Mappers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -73,5 +76,16 @@ class ProductServiceTest {
                 UpdateProductDto.builder().brand("A").category("상의").price(1000).build());
 
         Assertions.assertThat(productDto.getCategory()).isEqualTo("바지");
+    }
+
+
+    @Test
+    void deleteProductTest() {
+
+        willDoNothing().given(productPersistencePort).deleteProduct(1L);
+
+        productService.deleteProduct(1);
+
+        then(productPersistencePort).should(times(1)).deleteProduct(1L);
     }
 }
