@@ -1,4 +1,4 @@
-package musinsa.application.port.out.command;
+package musinsa.product.application.port.out.command;
 
 import lombok.Builder;
 import lombok.Value;

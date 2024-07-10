@@ -1,11 +1,11 @@
-package musinsa.application.service;
+package musinsa.product.application.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import musinsa.application.port.in.GetProductUseCase;
-import musinsa.application.port.in.dto.ProductDto;
-import musinsa.application.port.out.ProductRepositoryPort;
-import musinsa.domain.ProductDomain;
+import musinsa.product.application.port.in.GetProductUseCase;
+import musinsa.product.application.port.in.dto.ProductDto;
+import musinsa.product.application.port.out.ProductRepositoryPort;
+import musinsa.product.domain.ProductDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

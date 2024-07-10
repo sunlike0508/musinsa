@@ -1,11 +1,11 @@
-package musinsa.adaptor.out;
+package musinsa.product.adaptor.out;
 
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import musinsa.application.port.out.ProductRepositoryPort;
-import musinsa.application.port.out.command.SaveProductCommand;
-import musinsa.domain.ProductDomain;
+import musinsa.product.application.port.out.ProductRepositoryPort;
+import musinsa.product.application.port.out.command.SaveProductCommand;
+import musinsa.product.domain.ProductDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

@@ -1,8 +1,7 @@
-package musinsa.adaptor.out;
+package musinsa.product.adaptor.out;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface ProductEntityRepository extends JpaRepository<ProductEntity, String> {
-}
+interface ProductEntityRepository extends JpaRepository<ProductEntity, String> {}

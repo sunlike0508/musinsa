@@ -1,11 +1,11 @@
-package musinsa.adaptor.out;
+package musinsa.product.adaptor.out;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import musinsa.domain.ProductDomain;
+import musinsa.product.domain.ProductDomain;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

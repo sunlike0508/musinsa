@@ -1,7 +1,7 @@
-package musinsa.application.port.in;
+package musinsa.product.application.port.in;
 
 import java.util.List;
-import musinsa.application.port.in.dto.ProductDto;
+import musinsa.product.application.port.in.dto.ProductDto;
 
 public interface GetProductUseCase {
 

@@ -1,9 +1,9 @@
-package musinsa.application.service;
+package musinsa.product.application.service;
 
 import java.util.List;
-import musinsa.application.port.in.dto.ProductDto;
-import musinsa.application.port.out.ProductRepositoryPort;
-import musinsa.domain.ProductDomain;
+import musinsa.product.application.port.in.dto.ProductDto;
+import musinsa.product.application.port.out.ProductRepositoryPort;
+import musinsa.product.domain.ProductDomain;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

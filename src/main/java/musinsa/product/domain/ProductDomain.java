@@ -1,10 +1,10 @@
-package musinsa.application.port.in.dto;
+package musinsa.product.domain;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Value
-public class ProductDto {
+public class ProductDomain {
 
     String brand;
     String category;
@@ -12,7 +12,7 @@ public class ProductDto {
 
 
     @Builder
-    private ProductDto(String brand, String category, long price) {
+    private ProductDomain(String brand, String category, long price) {
         this.brand = brand;
         this.category = category;
         this.price = price;

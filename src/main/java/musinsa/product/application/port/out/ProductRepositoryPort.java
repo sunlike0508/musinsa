@@ -1,8 +1,8 @@
-package musinsa.application.port.out;
+package musinsa.product.application.port.out;
 
 import java.util.List;
-import musinsa.application.port.out.command.SaveProductCommand;
-import musinsa.domain.ProductDomain;
+import musinsa.product.application.port.out.command.SaveProductCommand;
+import musinsa.product.domain.ProductDomain;
 
 public interface ProductRepositoryPort {
 

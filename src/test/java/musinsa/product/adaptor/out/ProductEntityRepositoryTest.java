@@ -1,4 +1,4 @@
-package musinsa.adaptor.out;
+package musinsa.product.adaptor.out;
 
 import java.io.File;
 import java.io.IOException;
