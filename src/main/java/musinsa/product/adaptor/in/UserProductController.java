@@ -30,11 +30,6 @@ public class AdminProductController {
     private final DeleteProductUseCase deleteProductUseCase;
 
 
-    /**
-     * 상품 전체 조회 API
-     *
-     * @return 등록된 전체 상품 LIST
-     */
     @GetMapping("/products")
     public ResponseEntity<List<AdminProductDto>> getProductList() {
         return new ResponseEntity<>(getProductUseCase.getProductList(), HttpStatus.OK);
@@ -48,7 +43,7 @@ public class AdminProductController {
      * @return 등록된 상품 DTO
      */
 
-    @PostMapping("/products")
+    @PostMapping("/product")
     public ResponseEntity<AdminProductDto> enrollProduct(@RequestBody EnrollProductDto enrollProductDto) {
 
         AdminProductDto adminProductDto = enrollProductUseCase.enrollProduct(enrollProductDto);
