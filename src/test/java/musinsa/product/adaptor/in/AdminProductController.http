@@ -3,7 +3,7 @@ GET http://localhost:8080/products
 Content-Type: application/json
 
 ### 상품 등록
-POST http://localhost:8080/product
+POST http://localhost:8080/products
 Content-Type: application/json
 
 {

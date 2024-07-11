@@ -16,4 +16,6 @@ public interface ProductPersistencePort {
     ProductDomain updateProduct(long id, UpdateProductCommand updateProductCommand);
 
     void deleteProduct(long id);
+
+    List<ProductDomain> loadLowestPriceProductsByCategory();
 }

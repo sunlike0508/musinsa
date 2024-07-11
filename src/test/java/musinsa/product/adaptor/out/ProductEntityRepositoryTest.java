@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -43,5 +44,20 @@ class ProductEntityRepositoryTest {
         Assertions.assertThat(productList.get(0).getCategory()).isEqualTo("상의");
         Assertions.assertThat(productList.get(0).getPrice()).isEqualTo(11200);
 
+    }
+
+
+    @Test
+    @DisplayName("카테고리 별 최저 가격 상품 조회")
+    void loadLowestPriceProductsByCategoryTest() {
+
+        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByCategory();
+
+        productEntityList.forEach(productEntity -> System.out.println(
+                productEntity.getCategory() + " " + productEntity.getBrand() + " " + productEntity.getPrice()));
+
+        Assertions.assertThat(productEntityList).hasSize(8);
+
+        Assertions.assertThat(productEntityList.stream().mapToLong(ProductEntity::getPrice).sum()).isEqualTo(34100);
     }
 }

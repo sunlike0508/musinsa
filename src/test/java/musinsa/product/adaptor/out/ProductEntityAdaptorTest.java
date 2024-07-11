@@ -155,4 +155,21 @@ class ProductEntityAdaptorTest {
 
         then(productEntityRepository).should(times(1)).delete(productEntity);
     }
+
+
+    @Test
+    void loadLowestPriceProductsByCategoryTest() {
+
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setId(1L);
+        productEntity.setBrand("A");
+        productEntity.setCategory("상의");
+        productEntity.setPrice(1000);
+
+        given(productEntityRepository.loadLowestPriceProductsByCategory()).willReturn(List.of(productEntity));
+
+        List<ProductDomain> productDomainList = productEntityAdaptor.loadLowestPriceProductsByCategory();
+
+        assertThat(productDomainList).hasSize(1);
+    }
 }
