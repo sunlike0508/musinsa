@@ -82,6 +82,14 @@ class ProductEntityAdaptor implements ProductPersistencePort {
     }
 
 
+    @Override
+    public List<ProductDomain> loadLowestPriceProductsByCategory() {
+        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByCategory();
+
+        return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
+    }
+
+
     @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.ERROR)
     interface ProductEntityAdaptorMapper {
 

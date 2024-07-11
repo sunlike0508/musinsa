@@ -6,26 +6,27 @@ import lombok.Value;
 
 
 @Value
-public class LowPriceProductByCategory {
+public class LowestPriceProductByCategory {
 
-    List<LowPriceProduct> productList;
+
+    List<LowestPriceProduct> productList;
     long totalPrice;
 
 
     @Builder
-    private LowPriceProductByCategory(List<LowPriceProduct> productList, long totalPrice) {
+    private LowestPriceProductByCategory(List<LowestPriceProduct> productList, long totalPrice) {
         this.productList = List.copyOf(productList);
         this.totalPrice = totalPrice;
     }
 
 
-    public List<LowPriceProduct> getProductList() {
+    public List<LowestPriceProduct> getProductList() {
         return List.copyOf(productList);
     }
 
 
     @Value
-    public static class LowPriceProduct {
+    public static class LowestPriceProduct {
 
         String brand;
         String category;
@@ -33,7 +34,7 @@ public class LowPriceProductByCategory {
 
 
         @Builder
-        private LowPriceProduct(String brand, String category, long price) {
+        private LowestPriceProduct(String brand, String category, long price) {
             this.brand = brand;
             this.category = category;
             this.price = price;
