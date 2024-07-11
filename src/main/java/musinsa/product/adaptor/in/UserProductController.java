@@ -3,7 +3,7 @@ package musinsa.product.adaptor.in;
 
 import lombok.RequiredArgsConstructor;
 import musinsa.product.application.port.in.GetProductUseCase;
-import musinsa.product.application.port.in.dto.LowestPriceProductByCategory;
+import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +17,11 @@ public class UserProductController {
 
 
     @GetMapping("products/categories/lowest-price-products")
-    public ResponseEntity<LowestPriceProductByCategory> getLowestPriceProductsByCategory() {
+    public ResponseEntity<LowestPriceProductDto> getLowestPriceProductsByCategory() {
 
-        LowestPriceProductByCategory lowestPriceProductByCategory =
-                getProductUseCase.getLowestPriceProductsByCategory();
+        LowestPriceProductDto lowestPriceProductDto = getProductUseCase.getLowestPriceProductsByCategory();
 
-        return new ResponseEntity<>(lowestPriceProductByCategory, HttpStatus.OK);
+        return new ResponseEntity<>(lowestPriceProductDto, HttpStatus.OK);
     }
 
 

@@ -10,7 +10,7 @@ import musinsa.product.application.port.in.EnrollProductUseCase;
 import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.UpdateProductUseCase;
 import musinsa.product.application.port.in.dto.AdminProductDto;
-import musinsa.product.application.port.in.dto.LowestPriceProductByCategory;
+import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
@@ -36,19 +36,19 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
 
     @Override
-    public LowestPriceProductByCategory getLowestPriceProductsByCategory() {
+    public LowestPriceProductDto getLowestPriceProductsByCategory() {
 
         List<ProductDomain> productList = productPersistencePort.loadLowestPriceProductsByCategory();
 
         AtomicLong totalPrice = new AtomicLong();
 
-        List<LowestPriceProductByCategory.LowestPriceProduct> low = productList.stream().map(productDomain -> {
+        List<LowestPriceProductDto.LowestPriceProduct> low = productList.stream().map(productDomain -> {
             totalPrice.addAndGet(productDomain.getPrice());
 
             return productServiceMapper.toLowestPriceProduct(productDomain);
         }).toList();
 
-        return LowestPriceProductByCategory.builder().productList(low).totalPrice(totalPrice.get()).build();
+        return LowestPriceProductDto.builder().productList(low).totalPrice(totalPrice.get()).build();
     }
 
 
@@ -87,6 +87,6 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
         UpdateProductCommand toUpdateProductCommand(UpdateProductDto updateProductDto);
 
-        LowestPriceProductByCategory.LowestPriceProduct toLowestPriceProduct(ProductDomain productDomain);
+        LowestPriceProductDto.LowestPriceProduct toLowestPriceProduct(ProductDomain productDomain);
     }
 }
