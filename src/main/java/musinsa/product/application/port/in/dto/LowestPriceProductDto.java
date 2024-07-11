@@ -6,7 +6,7 @@ import lombok.Value;
 
 
 @Value
-public class LowestPriceProductByCategory {
+public class LowestPriceProductDto {
 
 
     List<LowestPriceProduct> productList;
@@ -14,7 +14,7 @@ public class LowestPriceProductByCategory {
 
 
     @Builder
-    private LowestPriceProductByCategory(List<LowestPriceProduct> productList, long totalPrice) {
+    private LowestPriceProductDto(List<LowestPriceProduct> productList, long totalPrice) {
         this.productList = List.copyOf(productList);
         this.totalPrice = totalPrice;
     }
