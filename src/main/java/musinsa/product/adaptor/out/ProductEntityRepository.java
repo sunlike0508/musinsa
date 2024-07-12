@@ -11,17 +11,18 @@ import org.springframework.stereotype.Repository;
 interface ProductEntityRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query(value = "select id, brand, category, price from (SELECT *, (rank() over(partition by category"
-            + " order by price asc, brand desc)) as rank FROM product) where rank = 1", nativeQuery = true)
+            + " order by price asc, brand desc)) as rank FROM products) where rank = 1", nativeQuery = true)
     List<ProductEntity> loadLowestPriceProductsByCategory();
 
 
     @Query(value = "SELECT brand, SUM(min_price) AS totalPrice "
-            + "FROM (SELECT brand, category, MIN(price) AS min_price FROM product GROUP BY brand, category) "
+            + "FROM (SELECT brand, category, MIN(price) AS min_price FROM products GROUP BY brand, category) "
             + "AS min_prices GROUP BY brand ORDER BY totalPrice", nativeQuery = true)
     List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand();
 
 
-    @Query(value = "SELECT *, (rank() over(partition by category order by price asc)) as rnk "
-            + "FROM product where brand = :brand", nativeQuery = true)
+    @Query(value =
+            "SELECT id, brand, category, price FROM (SELECT * FROM (SELECT *, (rank() over(partition by category order by price asc)) as rnk "
+                    + "FROM products where brand = :brand)) as product_rank where rnk = 1", nativeQuery = true)
     List<ProductEntity> loadLowestPriceProductsByBrand(@Param("brand") String brand);
 }

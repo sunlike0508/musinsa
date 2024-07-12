@@ -14,7 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @Getter
 @Setter
-@Table(name = "product")
+@Table(name = "products")
 @NoArgsConstructor
 @DynamicUpdate
 class ProductEntity {

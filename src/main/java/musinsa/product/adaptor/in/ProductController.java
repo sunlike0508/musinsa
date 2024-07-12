@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserProductController {
+public class ProductController {
 
     private final GetProductUseCase getProductUseCase;
 

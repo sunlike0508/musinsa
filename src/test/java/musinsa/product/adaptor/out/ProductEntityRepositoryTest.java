@@ -54,9 +54,6 @@ class ProductEntityRepositoryTest {
 
         List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByCategory();
 
-        productEntityList.forEach(productEntity -> System.out.println(
-                productEntity.getCategory() + " " + productEntity.getBrand() + " " + productEntity.getPrice()));
-
         Assertions.assertThat(productEntityList).hasSize(8);
 
         Assertions.assertThat(productEntityList.stream().mapToLong(ProductEntity::getPrice).sum()).isEqualTo(34100);
@@ -69,9 +66,6 @@ class ProductEntityRepositoryTest {
 
         List<AllCategoryPriceSum> allCategoryPriceSumList = productEntityRepository.loadAllCategoryPriceSumByBrand();
 
-        allCategoryPriceSumList.forEach(sumAllCategoryPrice -> System.out.println(
-                sumAllCategoryPrice.getBrand() + " " + sumAllCategoryPrice.getTotalPrice()));
-
         Assertions.assertThat(allCategoryPriceSumList).hasSize(9);
 
         AllCategoryPriceSum allCategoryPriceSum = allCategoryPriceSumList.get(0);
@@ -81,15 +75,30 @@ class ProductEntityRepositoryTest {
 
 
     @Test
-    @DisplayName("특정 브랜드로 모든 카테고리 최저 상품 조회")
+    @DisplayName("D 브랜드로 모든 카테고리 최저 상품 조회")
     void loadLowestPriceProductsByBrandTest() {
         List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByBrand("D");
-
-        productEntityList.forEach(productEntity -> System.out.println(
-                productEntity.getCategory() + " " + productEntity.getBrand() + " " + productEntity.getPrice()));
 
         Assertions.assertThat(productEntityList).hasSize(8);
 
         Assertions.assertThat(productEntityList.stream().mapToLong(ProductEntity::getPrice).sum()).isEqualTo(36100);
+    }
+
+
+    @Test
+    @DisplayName("D브랜드 악세사리 최저 가격 상품 추가 후 브랜드로 모든 카테고리 최저 상품 조회")
+    void loadLowestPriceProductsByBrandTest_after_add_min_price_product() {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setBrand("D");
+        productEntity.setCategory("악세사리");
+        productEntity.setPrice(1000);
+
+        productEntityRepository.save(productEntity);
+
+        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByBrand("D");
+
+        Assertions.assertThat(productEntityList).hasSize(8);
+
+        Assertions.assertThat(productEntityList.stream().mapToLong(ProductEntity::getPrice).sum()).isEqualTo(35100);
     }
 }
