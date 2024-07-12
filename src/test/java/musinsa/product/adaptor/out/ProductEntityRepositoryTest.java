@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,5 +60,36 @@ class ProductEntityRepositoryTest {
         Assertions.assertThat(productEntityList).hasSize(8);
 
         Assertions.assertThat(productEntityList.stream().mapToLong(ProductEntity::getPrice).sum()).isEqualTo(34100);
+    }
+
+
+    @Test
+    @DisplayName("단일 브랜드 모든 카테고리 상품을 구매할 때 최저 가격 브랜드 상품들 조회")
+    void loadSumLowestPriceBrandProducts() {
+
+        List<AllCategoryPriceSum> allCategoryPriceSumList = productEntityRepository.loadAllCategoryPriceSumByBrand();
+
+        allCategoryPriceSumList.forEach(sumAllCategoryPrice -> System.out.println(
+                sumAllCategoryPrice.getBrand() + " " + sumAllCategoryPrice.getTotalPrice()));
+
+        Assertions.assertThat(allCategoryPriceSumList).hasSize(9);
+
+        AllCategoryPriceSum allCategoryPriceSum = allCategoryPriceSumList.get(0);
+
+        Assertions.assertThat(allCategoryPriceSum.getBrand()).isEqualTo("D");
+    }
+
+
+    @Test
+    @DisplayName("특정 브랜드로 모든 카테고리 최저 상품 조회")
+    void loadLowestPriceProductsByBrandTest() {
+        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByBrand("D");
+
+        productEntityList.forEach(productEntity -> System.out.println(
+                productEntity.getCategory() + " " + productEntity.getBrand() + " " + productEntity.getPrice()));
+
+        Assertions.assertThat(productEntityList).hasSize(8);
+
+        Assertions.assertThat(productEntityList.stream().mapToLong(ProductEntity::getPrice).sum()).isEqualTo(36100);
     }
 }

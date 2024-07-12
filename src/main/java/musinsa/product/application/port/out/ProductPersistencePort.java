@@ -3,6 +3,7 @@ package musinsa.product.application.port.out;
 import java.util.List;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
+import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
 
 public interface ProductPersistencePort {
@@ -18,4 +19,8 @@ public interface ProductPersistencePort {
     void deleteProduct(long id);
 
     List<ProductDomain> loadLowestPriceProductsByCategory();
+
+    List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand();
+
+    List<ProductDomain> loadLowestPriceCategoryProductsByBrand(String brand);
 }

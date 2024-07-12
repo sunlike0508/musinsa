@@ -11,9 +11,11 @@ import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.UpdateProductUseCase;
 import musinsa.product.application.port.in.dto.AdminProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
+import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
+import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -53,6 +55,25 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
 
     @Override
+    public LowestPriceSaleBrandDto getLowestPriceCategoryProductsByBrand() {
+
+        List<AllCategoryPriceSum> allCategoryPriceSumList = productPersistencePort.loadAllCategoryPriceSumByBrand();
+
+        AllCategoryPriceSum allCategoryPriceSum = allCategoryPriceSumList.get(0);
+
+        List<ProductDomain> lowestPriceCategoryProducts =
+                productPersistencePort.loadLowestPriceCategoryProductsByBrand(allCategoryPriceSum.getBrand());
+
+        LowestPriceSaleBrandDto.LowestPriceSaleBrand lowestPriceSaleBrand =
+                LowestPriceSaleBrandDto.LowestPriceSaleBrand.builder().brand(allCategoryPriceSum.getBrand())
+                        .categories(productServiceMapper.toCategoryProduct(lowestPriceCategoryProducts))
+                        .totalPrice(allCategoryPriceSum.getTotalPrice()).build();
+
+        return LowestPriceSaleBrandDto.builder().lowestPriceSaleBrand(lowestPriceSaleBrand).build();
+    }
+
+
+    @Override
     public AdminProductDto enrollProduct(EnrollProductDto enrollProductDto) {
 
         ProductDomain productDomain =
@@ -88,5 +109,8 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
         UpdateProductCommand toUpdateProductCommand(UpdateProductDto updateProductDto);
 
         LowestPriceProductDto.LowestPriceProduct toLowestPriceProduct(ProductDomain productDomain);
+
+        List<LowestPriceSaleBrandDto.LowestPriceSaleBrand.CategoryProduct> toCategoryProduct(
+                List<ProductDomain> lowestPriceCategoryProducts);
     }
 }
