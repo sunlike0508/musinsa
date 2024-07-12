@@ -9,7 +9,9 @@ import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
+import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
+import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchThrowable;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +37,8 @@ class ProductEntityAdaptorTest {
     List<ProductEntity> productList;
     @Mock
     private ProductEntityRepository productEntityRepository;
+    @Mock
+    private ProductCustomRepository productCustomRepository;
     @Spy
     private ProductEntityAdaptor.ProductEntityAdaptorMapper productEntityAdaptorMapper =
             Mappers.getMapper(ProductEntityAdaptor.ProductEntityAdaptorMapper.class);
@@ -171,5 +175,110 @@ class ProductEntityAdaptorTest {
         List<ProductDomain> productDomainList = productEntityAdaptor.loadLowestPriceProductsByCategory();
 
         assertThat(productDomainList).hasSize(1);
+    }
+
+
+    @Test
+    void loadAllCategoryPriceSumByBrandTest() {
+
+        given(productEntityRepository.loadAllCategoryPriceSumByBrand()).willReturn(
+                List.of(new AllCategoryPriceSumTestClass("brand", 1000)));
+
+        List<AllCategoryPriceSum> allCategoryPriceSumList = productEntityAdaptor.loadAllCategoryPriceSumByBrand();
+
+        Assertions.assertThat(allCategoryPriceSumList).hasSize(1);
+        Assertions.assertThat(allCategoryPriceSumList.get(0).getBrand()).isEqualTo("brand");
+    }
+
+
+    @Test
+    void loadLowestPriceCategoryProductsByBrand() {
+
+        ProductEntity shirt = new ProductEntity();
+        shirt.setId(1L);
+        shirt.setBrand("A");
+        shirt.setCategory("상의");
+        shirt.setPrice(1000);
+
+        ProductEntity pants = new ProductEntity();
+        pants.setId(1L);
+        pants.setBrand("A");
+        pants.setCategory("바지");
+        pants.setPrice(2000);
+
+        given(productEntityRepository.loadLowestPriceCategoryProductsByBrand("A")).willReturn(List.of(shirt, pants));
+
+        List<ProductDomain> productDomainList = productEntityAdaptor.loadLowestPriceCategoryProductsByBrand("A");
+
+        Assertions.assertThat(productDomainList).hasSize(2);
+    }
+
+
+    @Test
+    void loadLowestPriceBrandByCategoryTest() {
+        ProductEntity shirt1 = new ProductEntity();
+        shirt1.setId(1L);
+        shirt1.setBrand("A");
+        shirt1.setCategory("상의");
+        shirt1.setPrice(1000);
+
+        ProductEntity shirt2 = new ProductEntity();
+        shirt2.setId(1L);
+        shirt2.setBrand("C");
+        shirt2.setCategory("상의");
+        shirt2.setPrice(1000);
+
+        given(productCustomRepository.loadLowestPriceBrandByCategory("상의")).willReturn(List.of(shirt1, shirt2));
+
+        List<ProductDomain> productDomainList = productEntityAdaptor.loadLowestPriceBrandByCategory("상의");
+
+        Assertions.assertThat(productDomainList).hasSize(2);
+    }
+
+
+    @Test
+    void loadHighestPriceBrandByCategoryTest() {
+        ProductEntity shirt1 = new ProductEntity();
+        shirt1.setId(1L);
+        shirt1.setBrand("A");
+        shirt1.setCategory("상의");
+        shirt1.setPrice(2000);
+
+        ProductEntity shirt2 = new ProductEntity();
+        shirt2.setId(1L);
+        shirt2.setBrand("C");
+        shirt2.setCategory("상의");
+        shirt2.setPrice(2000);
+
+        given(productCustomRepository.loadHighestPriceBrandByCategory("상의")).willReturn(List.of(shirt1, shirt2));
+
+        List<ProductDomain> productDomainList = productEntityAdaptor.loadHighestPriceBrandByCategory("상의");
+
+        Assertions.assertThat(productDomainList).hasSize(2);
+    }
+
+
+    private static class AllCategoryPriceSumTestClass implements AllCategoryPriceSum {
+
+        private final String brand;
+        private final long totalPrice;
+
+
+        public AllCategoryPriceSumTestClass(String brand, long totalPrice) {
+            this.brand = brand;
+            this.totalPrice = totalPrice;
+        }
+
+
+        @Override
+        public String getBrand() {
+            return brand;
+        }
+
+
+        @Override
+        public long getTotalPrice() {
+            return totalPrice;
+        }
     }
 }

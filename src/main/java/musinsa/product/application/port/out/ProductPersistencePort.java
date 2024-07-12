@@ -23,4 +23,8 @@ public interface ProductPersistencePort {
     List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand();
 
     List<ProductDomain> loadLowestPriceCategoryProductsByBrand(String brand);
+
+    List<ProductDomain> loadLowestPriceBrandByCategory(String category);
+
+    List<ProductDomain> loadHighestPriceBrandByCategory(String category);
 }

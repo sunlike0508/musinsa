@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 class ProductEntityAdaptor implements ProductPersistencePort {
 
     private final ProductEntityRepository productEntityRepository;
+    private final ProductCustomRepository productCustomRepository;
     private final ProductEntityAdaptorMapper productEntityAdaptorMapper;
 
 
@@ -100,7 +101,23 @@ class ProductEntityAdaptor implements ProductPersistencePort {
     @Override
     public List<ProductDomain> loadLowestPriceCategoryProductsByBrand(String brand) {
 
-        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByBrand(brand);
+        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceCategoryProductsByBrand(brand);
+
+        return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
+    }
+
+
+    @Override
+    public List<ProductDomain> loadLowestPriceBrandByCategory(String category) {
+        List<ProductEntity> productEntityList = productCustomRepository.loadLowestPriceBrandByCategory(category);
+
+        return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
+    }
+
+
+    @Override
+    public List<ProductDomain> loadHighestPriceBrandByCategory(String category) {
+        List<ProductEntity> productEntityList = productCustomRepository.loadHighestPriceBrandByCategory(category);
 
         return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
     }

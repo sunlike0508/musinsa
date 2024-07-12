@@ -24,5 +24,5 @@ interface ProductEntityRepository extends JpaRepository<ProductEntity, Long> {
     @Query(value =
             "SELECT id, brand, category, price FROM (SELECT * FROM (SELECT *, (rank() over(partition by category order by price asc)) as rnk "
                     + "FROM products where brand = :brand)) as product_rank where rnk = 1", nativeQuery = true)
-    List<ProductEntity> loadLowestPriceProductsByBrand(@Param("brand") String brand);
+    List<ProductEntity> loadLowestPriceCategoryProductsByBrand(@Param("brand") String brand);
 }

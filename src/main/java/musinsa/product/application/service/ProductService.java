@@ -10,6 +10,7 @@ import musinsa.product.application.port.in.EnrollProductUseCase;
 import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.UpdateProductUseCase;
 import musinsa.product.application.port.in.dto.AdminProductDto;
+import musinsa.product.application.port.in.dto.LowestHighestPriceBrandDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
@@ -74,6 +75,26 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
 
     @Override
+    public LowestHighestPriceBrandDto getLowestHighestPriceBrandByCategory(String category) {
+
+        // TODO : 카테고리 없는 경우 예외 체크
+
+        List<ProductDomain> lowestPriceProducts = productPersistencePort.loadLowestPriceBrandByCategory(category);
+
+        List<LowestHighestPriceBrandDto.BrandProduct> lowestPriceBrandList =
+                lowestPriceProducts.stream().map(productServiceMapper::toBrandProduct).toList();
+
+        List<ProductDomain> highestPriceProducts = productPersistencePort.loadHighestPriceBrandByCategory(category);
+
+        List<LowestHighestPriceBrandDto.BrandProduct> highestPriceBrandList =
+                highestPriceProducts.stream().map(productServiceMapper::toBrandProduct).toList();
+
+        return LowestHighestPriceBrandDto.builder().category(category).lowestPrices(lowestPriceBrandList)
+                .highestPrices(highestPriceBrandList).build();
+    }
+
+
+    @Override
     public AdminProductDto enrollProduct(EnrollProductDto enrollProductDto) {
 
         ProductDomain productDomain =
@@ -111,6 +132,8 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
         LowestPriceProductDto.LowestPriceProduct toLowestPriceProduct(ProductDomain productDomain);
 
         List<LowestPriceSaleBrandDto.LowestPriceSaleBrand.CategoryProduct> toCategoryProduct(
-                List<ProductDomain> lowestPriceCategoryProducts);
+                List<ProductDomain> productDomainList);
+
+        LowestHighestPriceBrandDto.BrandProduct toBrandProduct(ProductDomain productDomain);
     }
 }
