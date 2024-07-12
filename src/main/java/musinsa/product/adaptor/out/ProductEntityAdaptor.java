@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
+import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -85,6 +86,21 @@ class ProductEntityAdaptor implements ProductPersistencePort {
     @Override
     public List<ProductDomain> loadLowestPriceProductsByCategory() {
         List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByCategory();
+
+        return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
+    }
+
+
+    @Override
+    public List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand() {
+        return productEntityRepository.loadAllCategoryPriceSumByBrand();
+    }
+
+
+    @Override
+    public List<ProductDomain> loadLowestPriceCategoryProductsByBrand(String brand) {
+
+        List<ProductEntity> productEntityList = productEntityRepository.loadLowestPriceProductsByBrand(brand);
 
         return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
     }
