@@ -4,6 +4,7 @@ import java.util.List;
 import musinsa.product.adaptor.in.dto.EnrollProductDto;
 import musinsa.product.adaptor.in.dto.UpdateProductDto;
 import musinsa.product.application.port.in.dto.AdminProductDto;
+import musinsa.product.application.port.in.dto.LowestHighestPriceBrandDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
 import musinsa.product.application.port.out.ProductPersistencePort;
@@ -87,6 +88,24 @@ class ProductServiceTest {
         Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getTotalPrice()).isEqualTo(1000);
         Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getBrand()).isEqualTo("brand1");
         Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getCategories()).hasSize(2);
+    }
+
+
+    @Test
+    void getLowestHighestPriceBrandByCategory() {
+        given(productPersistencePort.loadLowestPriceBrandByCategory("상의")).willReturn(
+                List.of(ProductDomain.builder().brand("A").category("상의").price(1000).build(),
+                        ProductDomain.builder().brand("C").category("상의").price(1000).build()));
+
+        given(productPersistencePort.loadHighestPriceBrandByCategory("상의")).willReturn(
+                List.of(ProductDomain.builder().brand("D").category("상의").price(5000).build()));
+
+        LowestHighestPriceBrandDto lowestHighestPriceBrandDto =
+                productService.getLowestHighestPriceBrandByCategory("상의");
+
+        Assertions.assertThat(lowestHighestPriceBrandDto.getCategory()).isEqualTo("상의");
+        Assertions.assertThat(lowestHighestPriceBrandDto.getLowestPrices()).hasSize(2);
+        Assertions.assertThat(lowestHighestPriceBrandDto.getHighestPrices()).hasSize(1);
     }
 
 

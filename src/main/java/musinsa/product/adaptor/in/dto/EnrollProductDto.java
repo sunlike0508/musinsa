@@ -7,6 +7,7 @@ import lombok.Value;
 @Value
 public class EnrollProductDto {
 
+    // TODO : requestbody valid 체크
     String brand;
     String category;
     long price;

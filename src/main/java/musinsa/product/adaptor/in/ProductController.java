@@ -3,11 +3,13 @@ package musinsa.product.adaptor.in;
 
 import lombok.RequiredArgsConstructor;
 import musinsa.product.application.port.in.GetProductUseCase;
+import musinsa.product.application.port.in.dto.LowestHighestPriceBrandDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -42,5 +44,22 @@ public class ProductController {
         LowestPriceSaleBrandDto lowestPriceProductDto = getProductUseCase.getLowestPriceCategoryProductsByBrand();
 
         return new ResponseEntity<>(lowestPriceProductDto, HttpStatus.OK);
+    }
+
+
+    /**
+     * 원하는 카테고리의 최저, 최고 가격 상품 조회
+     *
+     * @param category 검색할 카테고리명
+     * @return LowestHighestPriceBrandDto
+     */
+    @GetMapping("products/lowest-highest-price-brand")
+    public ResponseEntity<LowestHighestPriceBrandDto> getLowestHighestPriceBrandByCategory(
+            @RequestParam(name = "category") String category) {
+
+        LowestHighestPriceBrandDto lowestHighestPriceBrandDto =
+                getProductUseCase.getLowestHighestPriceBrandByCategory(category);
+
+        return new ResponseEntity<>(lowestHighestPriceBrandDto, HttpStatus.OK);
     }
 }

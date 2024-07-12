@@ -6,3 +6,8 @@ Content-Type: application/json
 ### 단일 브랜드로 모든 카테고리 구매할 경우 최저 가격으로 판매하는 브랜드의 상품들 조회
 GET http://localhost:8080/products/brands/lowest-price-brand
 Content-Type: application/json
+
+
+### 카테고리 이름으로 최저, 최고 가격 브랜드와 상품 가격을 조회
+GET http://localhost:8080/products/lowest-highest-price-brand?category=상의
+Content-Type: application/json
