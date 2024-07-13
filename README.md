@@ -61,12 +61,14 @@ querydsl로 만든 이유는 역시나 자바로 쿼리 작성하기 때문에 �
     ``` 
     POST products
     ```
+  상품 등록을 위한 API, 브랜드, 카테고리, 가격을 모두 입력해야 등록 가능. 카테고리의 경우 Enum 값에 포함된 값만 가능. (Spring Restdocs 공통 Enum 문서 참조)
 
 * 변경
 
     ``` 
     PATCH products/{id}
     ```
+  브랜드, 카테고리, 가격 일부 데이터 수정 가능. 입력이 들어온 RequestBody에 들어온 데이터만 수정되기 때문에 PATCH를 사용
 
 * 삭제
 
