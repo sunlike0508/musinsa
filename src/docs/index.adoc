@@ -1,0 +1,14 @@
+= 무신사 코디 서비스 API
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: highlightjs
+
+// == 공통 코드
+//
+// * xref:Code.adoc[Code API]
+
+== Booking API
+
+* xref:AdminProduct.adoc[상품 관리 API]

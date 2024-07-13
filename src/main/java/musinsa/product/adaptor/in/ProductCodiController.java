@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductCodiController {
 
     private final GetProductUseCase getProductUseCase;
 

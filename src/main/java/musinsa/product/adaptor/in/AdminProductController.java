@@ -87,6 +87,6 @@ public class AdminProductController {
 
         deleteProductUseCase.deleteProduct(id);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

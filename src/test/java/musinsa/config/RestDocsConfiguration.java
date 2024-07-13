@@ -1,4 +1,4 @@
-package com.waug.ota.config;
+package musinsa.config;
 
 
 import org.springframework.boot.test.autoconfigure.restdocs.RestDocsMockMvcConfigurationCustomizer;
