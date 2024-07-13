@@ -9,6 +9,10 @@
 //
 // * xref:Code.adoc[Code API]
 
-== Booking API
+== 상품 관리 API
 
 * xref:AdminProduct.adoc[상품 관리 API]
+
+== 코디 서비스 API
+
+* xref:Product.adoc[코디 서비스 API]
