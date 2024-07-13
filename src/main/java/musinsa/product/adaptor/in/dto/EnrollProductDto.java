@@ -1,16 +1,17 @@
 package musinsa.product.adaptor.in.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 public class EnrollProductDto {
 
-    // TODO : requestbody valid 체크
-    String brand;
-    String category;
-    long price;
+    @NotBlank String brand;
+    @NotBlank String category;
+    @Positive long price;
 
 
     @Builder

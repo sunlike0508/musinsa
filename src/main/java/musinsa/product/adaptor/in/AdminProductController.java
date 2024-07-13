@@ -2,6 +2,7 @@ package musinsa.product.adaptor.in;
 
 
 import java.util.List;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import musinsa.product.adaptor.in.dto.EnrollProductDto;
 import musinsa.product.adaptor.in.dto.UpdateProductDto;
@@ -49,7 +50,7 @@ public class AdminProductController {
      */
 
     @PostMapping("/products")
-    public ResponseEntity<AdminProductDto> enrollProduct(@RequestBody EnrollProductDto enrollProductDto) {
+    public ResponseEntity<AdminProductDto> enrollProduct(@Valid @RequestBody EnrollProductDto enrollProductDto) {
 
         AdminProductDto adminProductDto = enrollProductUseCase.enrollProduct(enrollProductDto);
 
