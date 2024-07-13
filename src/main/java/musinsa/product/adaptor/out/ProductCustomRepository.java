@@ -5,6 +5,7 @@ import java.util.List;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import static musinsa.product.adaptor.out.QProductEntity.productEntity;
+import musinsa.product.domain.enums.Category;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,7 +15,7 @@ class ProductCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
 
-    public List<ProductEntity> loadLowestPriceBrandByCategory(String category) {
+    public List<ProductEntity> loadLowestPriceBrandByCategory(Category category) {
 
         Long minPrice = jpaQueryFactory.select(productEntity.price.min()).from(productEntity)
                 .where(productEntity.category.eq(category)).fetchOne();
@@ -28,7 +29,7 @@ class ProductCustomRepository {
     }
 
 
-    public List<ProductEntity> loadHighestPriceBrandByCategory(String category) {
+    public List<ProductEntity> loadHighestPriceBrandByCategory(Category category) {
         Long minPrice = jpaQueryFactory.select(productEntity.price.max()).from(productEntity)
                 .where(productEntity.category.eq(category)).fetchOne();
 

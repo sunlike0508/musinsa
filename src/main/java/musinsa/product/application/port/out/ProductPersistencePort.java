@@ -5,6 +5,7 @@ import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
+import musinsa.product.domain.enums.Category;
 
 public interface ProductPersistencePort {
 
@@ -24,7 +25,7 @@ public interface ProductPersistencePort {
 
     List<ProductDomain> loadLowestPriceCategoryProductsByBrand(String brand);
 
-    List<ProductDomain> loadLowestPriceBrandByCategory(String category);
+    List<ProductDomain> loadLowestPriceBrandByCategory(Category category);
 
-    List<ProductDomain> loadHighestPriceBrandByCategory(String category);
+    List<ProductDomain> loadHighestPriceBrandByCategory(Category category);
 }

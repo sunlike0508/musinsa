@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
+import musinsa.product.domain.enums.Category;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +43,7 @@ class ProductEntityRepositoryTest {
 
         Assertions.assertThat(productList).hasSize(72);
         Assertions.assertThat(productList.get(0).getBrand()).isEqualTo("A");
-        Assertions.assertThat(productList.get(0).getCategory()).isEqualTo("상의");
+        Assertions.assertThat(productList.get(0).getCategory()).isEqualTo(Category.상의);
         Assertions.assertThat(productList.get(0).getPrice()).isEqualTo(11200);
 
     }
@@ -93,7 +94,7 @@ class ProductEntityRepositoryTest {
     void loadLowestPriceProductsByBrandTest_after_add_min_price_product() {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setBrand("D");
-        productEntity.setCategory("악세사리");
+        productEntity.setCategory(Category.악세사리);
         productEntity.setPrice(1000);
 
         productEntityRepository.save(productEntity);
