@@ -5,9 +5,9 @@
 :toclevels: 3
 :source-highlighter: highlightjs
 
-// == 공통 코드
-//
-// * xref:Code.adoc[Code API]
+== 공통 Enum
+
+* xref:Enum.adoc[Code API]
 
 == 상품 관리 API
 
