@@ -30,31 +30,31 @@ GET products/lowest-highest-price-brand
 
 * 전체 조회
 
-``` 
-GET products
-```
+    ``` 
+    GET products
+    ```
 
 * 추가
 
-``` 
-POST products
-```
+    ``` 
+    POST products
+    ```
 
 * 변경
 
-``` 
-PATCH products/{id}
-```
+    ``` 
+    PATCH products/{id}
+    ```
 
 * 변경
 
-``` 
-DELETE products/{id}
-```
+    ``` 
+    DELETE products/{id}
+    ```
 
 ---
 
-### 개발 환경, 코드 빌드, 테스트, 실행 방법
+### 개발 환경, DataBase, API 테스트 실행 방법
 
 * 개발 환경
     * IntelliJ
@@ -64,12 +64,13 @@ DELETE products/{id}
     * H2 Database
 
 
-* 테스트 DB
+* (테스트) DB
     * SpringBootApplication 실행되면 과제에서 내어준 데이터 내용으로 구성된 src/main/resources/product.json 파일을
       InitDataProcess.class가 읽고 h2(in-memory)에 자동으로 데이터가 추가 됩니다.
 
-* 실행 방법
-    * src/test/java/musinsa/product/adaptor/in에 있는
+
+* API 호출 HTTP 파일 위치
+    * src/test/java/musinsa/product/adaptor/in/http에 있는
       AdminProductController.http
       ProductController.http 을 통해 POSTMAN처럼 API 호출 가능합니다.
 
@@ -77,3 +78,24 @@ DELETE products/{id}
 
 ### 기타추가정보
 
+* Spring Rest Docs 적용
+
+1. git 명령어 테스트 코드실행, 혹은 IDE(IntelliJ) 테스트실행
+
+   ``` 
+   ./gradlew :test
+   ```
+
+   build/generated-snippets 하위 폴더에 adoc 파일이 생성되면 정상
+
+
+2. git 명령어 build 실행, 혹은 IDE 빌드 실행
+
+   ``` 
+   ./gradlew build
+   ```
+
+   src/main/resources/static/docs 폴더에 html 파일 생성되면 정상
+
+
+3. Appplication 실행 후 http://localhost:8080/docs/index.html 접속 후 확인
