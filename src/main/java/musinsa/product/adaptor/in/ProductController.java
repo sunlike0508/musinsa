@@ -6,6 +6,7 @@ import musinsa.product.application.port.in.GetProductUseCase;
 import musinsa.product.application.port.in.dto.LowestHighestPriceBrandDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
+import musinsa.product.domain.enums.Category;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,7 +56,7 @@ public class ProductController {
      */
     @GetMapping("products/lowest-highest-price-brand")
     public ResponseEntity<LowestHighestPriceBrandDto> getLowestHighestPriceBrandByCategory(
-            @RequestParam(name = "category") String category) {
+            @RequestParam(name = "category") Category category) {
 
         LowestHighestPriceBrandDto lowestHighestPriceBrandDto =
                 getProductUseCase.getLowestHighestPriceBrandByCategory(category);

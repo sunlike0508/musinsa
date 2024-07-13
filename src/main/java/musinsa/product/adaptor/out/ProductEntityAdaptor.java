@@ -9,12 +9,14 @@ import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
+import musinsa.product.domain.enums.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
@@ -63,7 +65,7 @@ class ProductEntityAdaptor implements ProductPersistencePort {
             productEntity.setBrand(updateProductCommand.getBrand());
         }
 
-        if(StringUtils.hasText(updateProductCommand.getCategory())) {
+        if(!ObjectUtils.isEmpty(updateProductCommand.getCategory())) {
             productEntity.setCategory(updateProductCommand.getCategory());
         }
 
@@ -108,7 +110,7 @@ class ProductEntityAdaptor implements ProductPersistencePort {
 
 
     @Override
-    public List<ProductDomain> loadLowestPriceBrandByCategory(String category) {
+    public List<ProductDomain> loadLowestPriceBrandByCategory(Category category) {
         List<ProductEntity> productEntityList = productCustomRepository.loadLowestPriceBrandByCategory(category);
 
         return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
@@ -116,7 +118,7 @@ class ProductEntityAdaptor implements ProductPersistencePort {
 
 
     @Override
-    public List<ProductDomain> loadHighestPriceBrandByCategory(String category) {
+    public List<ProductDomain> loadHighestPriceBrandByCategory(Category category) {
         List<ProductEntity> productEntityList = productCustomRepository.loadHighestPriceBrandByCategory(category);
 
         return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();

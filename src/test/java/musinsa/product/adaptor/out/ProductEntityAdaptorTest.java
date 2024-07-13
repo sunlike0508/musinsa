@@ -11,6 +11,7 @@ import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
+import musinsa.product.domain.enums.Category;
 import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchThrowable;
@@ -71,12 +72,13 @@ class ProductEntityAdaptorTest {
     @Test
     void saveProductTest() {
 
-        given(productEntityRepository.save(any(ProductEntity.class))).willReturn(new ProductEntity("K", "상의", 1000));
+        given(productEntityRepository.save(any(ProductEntity.class))).willReturn(
+                new ProductEntity("K", Category.상의, 1000));
 
         ProductDomain productDomain = productEntityAdaptor.saveProduct(
                 SaveProductCommand.builder().brand("K").category("상의").price(1000).build());
 
-        assertThat(productDomain.getCategory()).isEqualTo("상의");
+        assertThat(productDomain.getCategory()).isEqualTo(Category.상의);
         assertThat(productDomain.getPrice()).isEqualTo(1000);
     }
 
@@ -88,7 +90,7 @@ class ProductEntityAdaptorTest {
         given(productEntityRepository.findById(1L)).willReturn(Optional.empty());
 
         Throwable thrown = catchThrowable(() -> productEntityAdaptor.updateProduct(1L,
-                UpdateProductCommand.builder().brand("K").category("상의").price(1000).build()));
+                UpdateProductCommand.builder().brand("K").category(Category.상의).price(1000).build()));
 
         assertThat(thrown).as("등록된 상품이 아닙니다.").isInstanceOf(NoSuchElementException.class);
     }
@@ -100,7 +102,7 @@ class ProductEntityAdaptorTest {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setId(1L);
         productEntity.setBrand("A");
-        productEntity.setCategory("상의");
+        productEntity.setCategory(Category.상의);
         productEntity.setPrice(1000);
 
         given(productEntityRepository.findById(1L)).willReturn(Optional.of(productEntity));
@@ -109,7 +111,7 @@ class ProductEntityAdaptorTest {
                 productEntityAdaptor.updateProduct(1L, UpdateProductCommand.builder().brand("K").build());
 
         assertThat(productDomain.getBrand()).isEqualTo("K");
-        assertThat(productDomain.getCategory()).isEqualTo("상의");
+        assertThat(productDomain.getCategory()).isEqualTo(Category.상의);
         assertThat(productDomain.getPrice()).isEqualTo(1000);
 
     }
@@ -121,16 +123,16 @@ class ProductEntityAdaptorTest {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setId(1L);
         productEntity.setBrand("A");
-        productEntity.setCategory("상의");
+        productEntity.setCategory(Category.상의);
         productEntity.setPrice(1000);
 
         given(productEntityRepository.findById(1L)).willReturn(Optional.of(productEntity));
 
         ProductDomain productDomain =
-                productEntityAdaptor.updateProduct(1L, UpdateProductCommand.builder().category("바지").build());
+                productEntityAdaptor.updateProduct(1L, UpdateProductCommand.builder().category(Category.바지).build());
 
         assertThat(productDomain.getBrand()).isEqualTo("A");
-        assertThat(productDomain.getCategory()).isEqualTo("바지");
+        assertThat(productDomain.getCategory()).isEqualTo(Category.바지);
         assertThat(productDomain.getPrice()).isEqualTo(1000);
     }
 
@@ -167,7 +169,7 @@ class ProductEntityAdaptorTest {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setId(1L);
         productEntity.setBrand("A");
-        productEntity.setCategory("상의");
+        productEntity.setCategory(Category.상의);
         productEntity.setPrice(1000);
 
         given(productEntityRepository.loadLowestPriceProductsByCategory()).willReturn(List.of(productEntity));
@@ -197,13 +199,13 @@ class ProductEntityAdaptorTest {
         ProductEntity shirt = new ProductEntity();
         shirt.setId(1L);
         shirt.setBrand("A");
-        shirt.setCategory("상의");
+        shirt.setCategory(Category.상의);
         shirt.setPrice(1000);
 
         ProductEntity pants = new ProductEntity();
         pants.setId(1L);
         pants.setBrand("A");
-        pants.setCategory("바지");
+        pants.setCategory(Category.바지);
         pants.setPrice(2000);
 
         given(productEntityRepository.loadLowestPriceCategoryProductsByBrand("A")).willReturn(List.of(shirt, pants));
@@ -219,18 +221,18 @@ class ProductEntityAdaptorTest {
         ProductEntity shirt1 = new ProductEntity();
         shirt1.setId(1L);
         shirt1.setBrand("A");
-        shirt1.setCategory("상의");
+        shirt1.setCategory(Category.상의);
         shirt1.setPrice(1000);
 
         ProductEntity shirt2 = new ProductEntity();
         shirt2.setId(1L);
         shirt2.setBrand("C");
-        shirt2.setCategory("상의");
+        shirt2.setCategory(Category.상의);
         shirt2.setPrice(1000);
 
-        given(productCustomRepository.loadLowestPriceBrandByCategory("상의")).willReturn(List.of(shirt1, shirt2));
+        given(productCustomRepository.loadLowestPriceBrandByCategory(Category.상의)).willReturn(List.of(shirt1, shirt2));
 
-        List<ProductDomain> productDomainList = productEntityAdaptor.loadLowestPriceBrandByCategory("상의");
+        List<ProductDomain> productDomainList = productEntityAdaptor.loadLowestPriceBrandByCategory(Category.상의);
 
         Assertions.assertThat(productDomainList).hasSize(2);
     }
@@ -241,18 +243,18 @@ class ProductEntityAdaptorTest {
         ProductEntity shirt1 = new ProductEntity();
         shirt1.setId(1L);
         shirt1.setBrand("A");
-        shirt1.setCategory("상의");
+        shirt1.setCategory(Category.상의);
         shirt1.setPrice(2000);
 
         ProductEntity shirt2 = new ProductEntity();
         shirt2.setId(1L);
         shirt2.setBrand("C");
-        shirt2.setCategory("상의");
+        shirt2.setCategory(Category.상의);
         shirt2.setPrice(2000);
 
-        given(productCustomRepository.loadHighestPriceBrandByCategory("상의")).willReturn(List.of(shirt1, shirt2));
+        given(productCustomRepository.loadHighestPriceBrandByCategory(Category.상의)).willReturn(List.of(shirt1, shirt2));
 
-        List<ProductDomain> productDomainList = productEntityAdaptor.loadHighestPriceBrandByCategory("상의");
+        List<ProductDomain> productDomainList = productEntityAdaptor.loadHighestPriceBrandByCategory(Category.상의);
 
         Assertions.assertThat(productDomainList).hasSize(2);
     }

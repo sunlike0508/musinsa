@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalControllerExceptionHandler {
 
 
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = {Error.class, Exception.class})
     public ResponseEntity<ErrorResponse> unexpectedException(Exception e) {
 
         log.error(e.getMessage(), e);

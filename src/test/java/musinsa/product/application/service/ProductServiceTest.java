@@ -12,6 +12,7 @@ import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
+import musinsa.product.domain.enums.Category;
 import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
@@ -47,8 +48,8 @@ class ProductServiceTest {
     @Test
     void getProductListTest() {
 
-        ProductDomain productDomain1 = ProductDomain.builder().brand("A").category("상의").price(1000).build();
-        ProductDomain productDomain2 = ProductDomain.builder().brand("A").category("바지").price(2000).build();
+        ProductDomain productDomain1 = ProductDomain.builder().brand("A").category(Category.상의).price(1000).build();
+        ProductDomain productDomain2 = ProductDomain.builder().brand("A").category(Category.바지).price(2000).build();
 
         given(productPersistencePort.loadAllProductDomainList()).willReturn(List.of(productDomain1, productDomain2));
 
@@ -60,8 +61,8 @@ class ProductServiceTest {
 
     @Test
     void getLowestPriceProductsByCategoryTest() {
-        ProductDomain productDomain1 = ProductDomain.builder().brand("A").category("상의").price(1000).build();
-        ProductDomain productDomain2 = ProductDomain.builder().brand("A").category("바지").price(2000).build();
+        ProductDomain productDomain1 = ProductDomain.builder().brand("A").category(Category.상의).price(1000).build();
+        ProductDomain productDomain2 = ProductDomain.builder().brand("A").category(Category.바지).price(2000).build();
 
         given(productPersistencePort.loadLowestPriceProductsByCategory()).willReturn(
                 List.of(productDomain1, productDomain2));
@@ -80,8 +81,8 @@ class ProductServiceTest {
                         new AllCategoryPriceSumTestClass("brand2", 2000)));
 
         given(productPersistencePort.loadLowestPriceCategoryProductsByBrand("brand1")).willReturn(
-                List.of(ProductDomain.builder().category("상의").price(400).build(),
-                        ProductDomain.builder().category("바지").price(600).build()));
+                List.of(ProductDomain.builder().category(Category.상의).price(400).build(),
+                        ProductDomain.builder().category(Category.바지).price(600).build()));
 
         LowestPriceSaleBrandDto lowestPriceSaleBrandDto = productService.getLowestPriceCategoryProductsByBrand();
 
@@ -93,17 +94,17 @@ class ProductServiceTest {
 
     @Test
     void getLowestHighestPriceBrandByCategory() {
-        given(productPersistencePort.loadLowestPriceBrandByCategory("상의")).willReturn(
-                List.of(ProductDomain.builder().brand("A").category("상의").price(1000).build(),
-                        ProductDomain.builder().brand("C").category("상의").price(1000).build()));
+        given(productPersistencePort.loadLowestPriceBrandByCategory(Category.상의)).willReturn(
+                List.of(ProductDomain.builder().brand("A").category(Category.상의).price(1000).build(),
+                        ProductDomain.builder().brand("C").category(Category.상의).price(1000).build()));
 
-        given(productPersistencePort.loadHighestPriceBrandByCategory("상의")).willReturn(
-                List.of(ProductDomain.builder().brand("D").category("상의").price(5000).build()));
+        given(productPersistencePort.loadHighestPriceBrandByCategory(Category.상의)).willReturn(
+                List.of(ProductDomain.builder().brand("D").category(Category.상의).price(5000).build()));
 
         LowestHighestPriceBrandDto lowestHighestPriceBrandDto =
-                productService.getLowestHighestPriceBrandByCategory("상의");
+                productService.getLowestHighestPriceBrandByCategory(Category.상의);
 
-        Assertions.assertThat(lowestHighestPriceBrandDto.getCategory()).isEqualTo("상의");
+        Assertions.assertThat(lowestHighestPriceBrandDto.getCategory()).isEqualTo(Category.상의);
         Assertions.assertThat(lowestHighestPriceBrandDto.getLowestPrices()).hasSize(2);
         Assertions.assertThat(lowestHighestPriceBrandDto.getHighestPrices()).hasSize(1);
     }
@@ -111,12 +112,12 @@ class ProductServiceTest {
 
     @Test
     void enrollProductTest() {
-        ProductDomain productDomain = ProductDomain.builder().brand("A").category("상의").price(1000).build();
+        ProductDomain productDomain = ProductDomain.builder().brand("A").category(Category.상의).price(1000).build();
 
         given(productPersistencePort.saveProduct(any(SaveProductCommand.class))).willReturn(productDomain);
 
-        AdminProductDto adminProductDto =
-                productService.enrollProduct(EnrollProductDto.builder().brand("A").category("상의").price(1000).build());
+        AdminProductDto adminProductDto = productService.enrollProduct(
+                EnrollProductDto.builder().brand("A").category(Category.상의).price(1000).build());
 
         assertThat(adminProductDto.getBrand()).isEqualTo("A");
     }
@@ -124,14 +125,14 @@ class ProductServiceTest {
 
     @Test
     void updateProductTest() {
-        ProductDomain productDomain = ProductDomain.builder().category("바지").build();
+        ProductDomain productDomain = ProductDomain.builder().category(Category.바지).build();
 
         given(productPersistencePort.updateProduct(eq(1L), any(UpdateProductCommand.class))).willReturn(productDomain);
 
         AdminProductDto adminProductDto = productService.updateProduct(1L,
-                UpdateProductDto.builder().brand("A").category("상의").price(1000).build());
+                UpdateProductDto.builder().brand("A").category(Category.상의).price(1000).build());
 
-        assertThat(adminProductDto.getCategory()).isEqualTo("바지");
+        assertThat(adminProductDto.getCategory()).isEqualTo(Category.바지);
     }
 
 

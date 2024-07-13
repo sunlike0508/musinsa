@@ -18,6 +18,7 @@ import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
 import musinsa.product.application.port.out.dto.AllCategoryPriceSum;
 import musinsa.product.domain.ProductDomain;
+import musinsa.product.domain.enums.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -75,9 +76,7 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
 
 
     @Override
-    public LowestHighestPriceBrandDto getLowestHighestPriceBrandByCategory(String category) {
-
-        // TODO : 카테고리 없는 경우 예외 체크
+    public LowestHighestPriceBrandDto getLowestHighestPriceBrandByCategory(Category category) {
 
         List<ProductDomain> lowestPriceProducts = productPersistencePort.loadLowestPriceBrandByCategory(category);
 
