@@ -1,0 +1,11 @@
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: rouge
+
+= 공통 Enum
+
+== Category
+
+include::{snippets}/enum-doc-controller-test/get-category-enum/custom-response-fields-category.adoc[]
