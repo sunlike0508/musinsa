@@ -1,0 +1,71 @@
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: rouge
+
+= 상품 관리 API
+
+== 상품 전체 조회
+
+=== Request
+
+include::{snippets}/get-products-list/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-products-list/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/get-products-list/response-fields.adoc[]
+
+== 상품 등록
+
+=== Request
+
+include::{snippets}/enroll-product/http-request.adoc[]
+
+=== RequestBody
+
+include::{snippets}/enroll-product/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/enroll-product/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/enroll-product/response-fields.adoc[]
+
+== 상품 수정
+
+=== Request
+
+include::{snippets}/update-product/http-request.adoc[]
+
+=== RequestBody
+
+include::{snippets}/update-product/request-fields.adoc[]
+
+=== Response
+
+include::{snippets}/update-product/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/update-product/response-fields.adoc[]
+
+== 상품 삭제
+
+=== Request
+
+include::{snippets}/delete-product/http-request.adoc[]
+
+=== Path Parameter
+
+include::{snippets}/delete-product/path-parameters.adoc[]
+
+=== Response
+
+include::{snippets}/delete-product/http-response.adoc[]

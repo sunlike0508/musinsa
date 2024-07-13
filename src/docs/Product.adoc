@@ -1,0 +1,69 @@
+:doctype: book
+:toc: left
+:sectnums:
+:toclevels: 3
+:source-highlighter: rouge
+
+= 코디 서비스 API
+
+== 카테고리 별 최저 가격 브랜드 조회
+
+=== Request
+
+include::{snippets}/get-lowest-price-products-by-category/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-lowest-price-products-by-category/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/get-lowest-price-products-by-category/response-fields.adoc[]
+
+==== 상품 [[products-list]]
+
+include::{snippets}/get-lowest-price-products-by-category/response-fields-productList.adoc[]
+
+== 단일 브랜드로 모든 카테고리 구매할 경우 최저 가격으로 판매하는 브랜드의 상품들 조회
+
+=== Request
+
+include::{snippets}/get-lowest-price-category-products-by-brand/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-lowest-price-category-products-by-brand/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/get-lowest-price-category-products-by-brand/response-fields.adoc[]
+
+==== 최저가 판매 브랜드 [[lowest-price-sale-brand]]
+
+include::{snippets}/get-lowest-price-category-products-by-brand/response-fields-lowest-price-sale-brand.adoc[]
+
+==== 최저가 판매 카테고리  [[lowest-price-categories]]
+
+include::{snippets}/get-lowest-price-category-products-by-brand/response-fields-categories.adoc[]
+
+== 원하는 카테고리의 최저, 최고 가격 상품 조회
+
+=== Request
+
+include::{snippets}/get-lowest-highest-price-brand-by-category/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/get-lowest-highest-price-brand-by-category/http-response.adoc[]
+
+=== ResponseBody
+
+include::{snippets}/get-lowest-highest-price-brand-by-category/response-fields.adoc[]
+
+==== 최저가 브랜드 [[lowest-price-brand]]
+
+include::{snippets}/get-lowest-highest-price-brand-by-category/response-fields-lowest-price-brand.adoc[]
+
+==== 최고가 브랜드  [[highest-price-brand]]
+
+include::{snippets}/get-lowest-highest-price-brand-by-category/response-fields-highest-price-brand.adoc[]
