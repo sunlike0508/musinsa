@@ -183,10 +183,11 @@ class ProductEntityAdaptorTest {
     @Test
     void loadAllCategoryPriceSumByBrandTest() {
 
-        given(productEntityRepository.loadAllCategoryPriceSumByBrand()).willReturn(
+        given(productEntityRepository.loadAllCategoryPriceSumByBrand(List.of("brand"))).willReturn(
                 List.of(new AllCategoryPriceSumTestClass("brand", 1000)));
 
-        List<AllCategoryPriceSum> allCategoryPriceSumList = productEntityAdaptor.loadAllCategoryPriceSumByBrand();
+        List<AllCategoryPriceSum> allCategoryPriceSumList =
+                productEntityAdaptor.loadAllCategoryPriceSumByBrand(List.of("brand"));
 
         Assertions.assertThat(allCategoryPriceSumList).hasSize(1);
         Assertions.assertThat(allCategoryPriceSumList.get(0).getBrand()).isEqualTo("brand");
@@ -257,6 +258,18 @@ class ProductEntityAdaptorTest {
         List<ProductDomain> productDomainList = productEntityAdaptor.loadHighestPriceBrandByCategory(Category.상의);
 
         Assertions.assertThat(productDomainList).hasSize(2);
+    }
+
+
+    @Test
+    void loadAllBrandIncludingAllCategoriesTest() {
+        given(productCustomRepository.loadAllBrandIncludingAllCategories(Category.getCategoryCount())).willReturn(
+                List.of("A", "B"));
+
+        List<String> brandList = productEntityAdaptor.loadAllBrandIncludingAllCategories(Category.getCategoryCount());
+
+        Assertions.assertThat(brandList).hasSize(2);
+        Assertions.assertThat(brandList).contains("A", "B");
     }
 
 

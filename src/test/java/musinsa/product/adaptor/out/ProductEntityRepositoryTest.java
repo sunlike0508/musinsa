@@ -68,9 +68,10 @@ class ProductEntityRepositoryTest {
     @DisplayName("단일 브랜드 모든 카테고리 상품을 구매할 때 최저 가격 브랜드 상품들 조회")
     void loadSumLowestPriceBrandProducts() {
 
-        List<AllCategoryPriceSum> allCategoryPriceSumList = productEntityRepository.loadAllCategoryPriceSumByBrand();
+        List<AllCategoryPriceSum> allCategoryPriceSumList =
+                productEntityRepository.loadAllCategoryPriceSumByBrand(List.of("A", "B", "C", "D"));
 
-        Assertions.assertThat(allCategoryPriceSumList).hasSize(9);
+        Assertions.assertThat(allCategoryPriceSumList).hasSize(4);
 
         AllCategoryPriceSum allCategoryPriceSum = allCategoryPriceSumList.get(0);
 

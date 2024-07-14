@@ -76,18 +76,20 @@ class ProductServiceTest {
     @Test
     void getLowestPriceCategoryProductsByBrand() {
 
-        given(productPersistencePort.loadAllCategoryPriceSumByBrand()).willReturn(
-                List.of(new AllCategoryPriceSumTestClass("brand1", 1000),
-                        new AllCategoryPriceSumTestClass("brand2", 2000)));
+        given(productPersistencePort.loadAllBrandIncludingAllCategories(Category.values().length)).willReturn(
+                List.of("A", "B"));
 
-        given(productPersistencePort.loadLowestPriceCategoryProductsByBrand("brand1")).willReturn(
+        given(productPersistencePort.loadAllCategoryPriceSumByBrand(List.of("A", "B"))).willReturn(
+                List.of(new AllCategoryPriceSumTestClass("A", 1000), new AllCategoryPriceSumTestClass("B", 2000)));
+
+        given(productPersistencePort.loadLowestPriceCategoryProductsByBrand("A")).willReturn(
                 List.of(ProductDomain.builder().category(Category.상의).price(400).build(),
                         ProductDomain.builder().category(Category.바지).price(600).build()));
 
         LowestPriceSaleBrandDto lowestPriceSaleBrandDto = productService.getLowestPriceCategoryProductsByBrand();
 
         Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getTotalPrice()).isEqualTo(1000);
-        Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getBrand()).isEqualTo("brand1");
+        Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getBrand()).isEqualTo("A");
         Assertions.assertThat(lowestPriceSaleBrandDto.getLowestPriceSaleBrand().getCategories()).hasSize(2);
     }
 

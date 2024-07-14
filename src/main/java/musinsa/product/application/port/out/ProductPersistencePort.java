@@ -21,11 +21,13 @@ public interface ProductPersistencePort {
 
     List<ProductDomain> loadLowestPriceProductsByCategory();
 
-    List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand();
+    List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand(List<String> brandList);
 
     List<ProductDomain> loadLowestPriceCategoryProductsByBrand(String brand);
 
     List<ProductDomain> loadLowestPriceBrandByCategory(Category category);
 
     List<ProductDomain> loadHighestPriceBrandByCategory(Category category);
+
+    List<String> loadAllBrandIncludingAllCategories(int categoryCount);
 }

@@ -16,9 +16,10 @@ interface ProductEntityRepository extends JpaRepository<ProductEntity, Long> {
 
 
     @Query(value = "SELECT brand, SUM(min_price) AS totalPrice "
-            + "FROM (SELECT brand, category, MIN(price) AS min_price FROM products GROUP BY brand, category) "
+            + "FROM (SELECT brand, category, MIN(price) AS min_price FROM products "
+            + "WHERE brand in (:brandList) GROUP BY brand, category) "
             + "AS min_prices GROUP BY brand ORDER BY totalPrice", nativeQuery = true)
-    List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand();
+    List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand(List<String> brandList);
 
 
     @Query(value =
