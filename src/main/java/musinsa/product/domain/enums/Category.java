@@ -13,6 +13,11 @@ public enum Category implements EnumType {
     }
 
 
+    public static int getCategoryCount() {
+        return Category.values().length;
+    }
+
+
     @Override
     public String getName() {
         return this.name();

@@ -40,4 +40,11 @@ class ProductCustomRepository {
         return jpaQueryFactory.selectFrom(productEntity)
                 .where(productEntity.price.eq(minPrice).and(productEntity.category.eq(category))).fetch();
     }
+
+
+    public List<String> loadAllBrandIncludingAllCategories(int categoryCount) {
+
+        return jpaQueryFactory.select(productEntity.brand).from(productEntity).groupBy(productEntity.brand)
+                .having(productEntity.category.count().goe(categoryCount)).fetch();
+    }
 }

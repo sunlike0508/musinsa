@@ -57,4 +57,16 @@ class ProductCustomRepositoryTest {
         Assertions.assertThat(productEntityList).hasSize(1);
         Assertions.assertThat(productEntityList.get(0).getPrice()).isEqualTo(9900);
     }
+
+
+    @Test
+    void loadAllBrandIncludingAllCategories() {
+        ProductEntity productEntity = new ProductEntity("K", Category.상의, 1000);
+        productEntityRepository.save(productEntity);
+
+        List<String> brandList =
+                productCustomRepository.loadAllBrandIncludingAllCategories(Category.getCategoryCount());
+
+        Assertions.assertThat(brandList).hasSize(9);
+    }
 }

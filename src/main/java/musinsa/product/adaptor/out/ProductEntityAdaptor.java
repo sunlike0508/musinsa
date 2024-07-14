@@ -95,8 +95,8 @@ class ProductEntityAdaptor implements ProductPersistencePort {
 
 
     @Override
-    public List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand() {
-        return productEntityRepository.loadAllCategoryPriceSumByBrand();
+    public List<AllCategoryPriceSum> loadAllCategoryPriceSumByBrand(List<String> brandList) {
+        return productEntityRepository.loadAllCategoryPriceSumByBrand(brandList);
     }
 
 
@@ -122,6 +122,12 @@ class ProductEntityAdaptor implements ProductPersistencePort {
         List<ProductEntity> productEntityList = productCustomRepository.loadHighestPriceBrandByCategory(category);
 
         return productEntityList.stream().map(productEntityAdaptorMapper::toProductDomain).toList();
+    }
+
+
+    @Override
+    public List<String> loadAllBrandIncludingAllCategories(int categoryCount) {
+        return productCustomRepository.loadAllBrandIncludingAllCategories(categoryCount);
     }
 
 

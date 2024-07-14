@@ -59,7 +59,10 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
     @Override
     public LowestPriceSaleBrandDto getLowestPriceCategoryProductsByBrand() {
 
-        List<AllCategoryPriceSum> allCategoryPriceSumList = productPersistencePort.loadAllCategoryPriceSumByBrand();
+        List<String> brandList = productPersistencePort.loadAllBrandIncludingAllCategories(Category.getCategoryCount());
+
+        List<AllCategoryPriceSum> allCategoryPriceSumList =
+                productPersistencePort.loadAllCategoryPriceSumByBrand(brandList);
 
         AllCategoryPriceSum allCategoryPriceSum = allCategoryPriceSumList.get(0);
 
