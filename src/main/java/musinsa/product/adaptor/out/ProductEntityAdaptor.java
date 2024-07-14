@@ -4,6 +4,7 @@ package musinsa.product.adaptor.out;
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
+import musinsa.product.application.port.out.LoadProductPort;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
@@ -21,7 +22,7 @@ import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 @Component
-class ProductEntityAdaptor implements ProductPersistencePort {
+class ProductEntityAdaptor implements ProductPersistencePort, LoadProductPort {
 
     private final ProductEntityRepository productEntityRepository;
     private final ProductCustomRepository productCustomRepository;

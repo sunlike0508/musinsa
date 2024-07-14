@@ -7,6 +7,7 @@ import musinsa.product.application.port.in.dto.AdminProductDto;
 import musinsa.product.application.port.in.dto.LowestHighestPriceBrandDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
+import musinsa.product.application.port.out.LoadProductPort;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
@@ -34,6 +35,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class ProductServiceTest {
 
     @Mock
+    private LoadProductPort loadProductPort;
+    @Mock
     private ProductPersistencePort productPersistencePort;
 
     @Spy
@@ -51,7 +54,7 @@ class ProductServiceTest {
         ProductDomain productDomain1 = ProductDomain.builder().brand("A").category(Category.상의).price(1000).build();
         ProductDomain productDomain2 = ProductDomain.builder().brand("A").category(Category.바지).price(2000).build();
 
-        given(productPersistencePort.loadAllProductDomainList()).willReturn(List.of(productDomain1, productDomain2));
+        given(loadProductPort.loadAllProductDomainList()).willReturn(List.of(productDomain1, productDomain2));
 
         List<AdminProductDto> productList = productService.getProductList();
 
@@ -64,8 +67,7 @@ class ProductServiceTest {
         ProductDomain productDomain1 = ProductDomain.builder().brand("A").category(Category.상의).price(1000).build();
         ProductDomain productDomain2 = ProductDomain.builder().brand("A").category(Category.바지).price(2000).build();
 
-        given(productPersistencePort.loadLowestPriceProductsByCategory()).willReturn(
-                List.of(productDomain1, productDomain2));
+        given(loadProductPort.loadLowestPriceProductsByCategory()).willReturn(List.of(productDomain1, productDomain2));
 
         LowestPriceProductDto lowestPriceProductDto = productService.getLowestPriceProductsByCategory();
 
@@ -76,13 +78,13 @@ class ProductServiceTest {
     @Test
     void getLowestPriceCategoryProductsByBrand() {
 
-        given(productPersistencePort.loadAllBrandIncludingAllCategories(Category.values().length)).willReturn(
+        given(loadProductPort.loadAllBrandIncludingAllCategories(Category.values().length)).willReturn(
                 List.of("A", "B"));
 
-        given(productPersistencePort.loadAllCategoryPriceSumByBrand(List.of("A", "B"))).willReturn(
+        given(loadProductPort.loadAllCategoryPriceSumByBrand(List.of("A", "B"))).willReturn(
                 List.of(new AllCategoryPriceSumTestClass("A", 1000), new AllCategoryPriceSumTestClass("B", 2000)));
 
-        given(productPersistencePort.loadLowestPriceCategoryProductsByBrand("A")).willReturn(
+        given(loadProductPort.loadLowestPriceCategoryProductsByBrand("A")).willReturn(
                 List.of(ProductDomain.builder().category(Category.상의).price(400).build(),
                         ProductDomain.builder().category(Category.바지).price(600).build()));
 
@@ -96,11 +98,11 @@ class ProductServiceTest {
 
     @Test
     void getLowestHighestPriceBrandByCategory() {
-        given(productPersistencePort.loadLowestPriceBrandByCategory(Category.상의)).willReturn(
+        given(loadProductPort.loadLowestPriceBrandByCategory(Category.상의)).willReturn(
                 List.of(ProductDomain.builder().brand("A").category(Category.상의).price(1000).build(),
                         ProductDomain.builder().brand("C").category(Category.상의).price(1000).build()));
 
-        given(productPersistencePort.loadHighestPriceBrandByCategory(Category.상의)).willReturn(
+        given(loadProductPort.loadHighestPriceBrandByCategory(Category.상의)).willReturn(
                 List.of(ProductDomain.builder().brand("D").category(Category.상의).price(5000).build()));
 
         LowestHighestPriceBrandDto lowestHighestPriceBrandDto =

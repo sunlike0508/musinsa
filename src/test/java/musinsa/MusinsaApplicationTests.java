@@ -1,7 +1,7 @@
 package musinsa;
 
 import java.util.List;
-import musinsa.product.application.port.out.ProductPersistencePort;
+import musinsa.product.application.port.out.LoadProductPort;
 import musinsa.product.domain.ProductDomain;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,14 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MusinsaApplicationTests {
 
     @Autowired
-    private ProductPersistencePort productPersistencePort;
+    private LoadProductPort loadProductPort;
 
 
     @Test
     @DisplayName("초기화 데이터 72개 등록 확인")
     void contextLoads() {
 
-        List<ProductDomain> productDomainList = productPersistencePort.loadAllProductDomainList();
+        List<ProductDomain> productDomainList = loadProductPort.loadAllProductDomainList();
 
         Assertions.assertThat(productDomainList).hasSize(72);
     }
