@@ -1,6 +1,7 @@
 package musinsa.product.adaptor.out;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -25,7 +26,9 @@ class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String brand;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
     private long price;
