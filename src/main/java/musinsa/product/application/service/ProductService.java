@@ -13,6 +13,7 @@ import musinsa.product.application.port.in.dto.AdminProductDto;
 import musinsa.product.application.port.in.dto.LowestHighestPriceBrandDto;
 import musinsa.product.application.port.in.dto.LowestPriceProductDto;
 import musinsa.product.application.port.in.dto.LowestPriceSaleBrandDto;
+import musinsa.product.application.port.out.LoadProductPort;
 import musinsa.product.application.port.out.ProductPersistencePort;
 import musinsa.product.application.port.out.command.SaveProductCommand;
 import musinsa.product.application.port.out.command.UpdateProductCommand;
@@ -28,21 +29,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateProductUseCase, DeleteProductUseCase {
 
+    private final LoadProductPort loadProductPort;
     private final ProductPersistencePort productPersistencePort;
     private final ProductServiceMapper productServiceMapper;
 
 
     @Override
     public List<AdminProductDto> getProductList() {
-        return productPersistencePort.loadAllProductDomainList().stream().map(productServiceMapper::toProductDto)
-                .toList();
+        return loadProductPort.loadAllProductDomainList().stream().map(productServiceMapper::toProductDto).toList();
     }
 
 
     @Override
     public LowestPriceProductDto getLowestPriceProductsByCategory() {
 
-        List<ProductDomain> productList = productPersistencePort.loadLowestPriceProductsByCategory();
+        List<ProductDomain> productList = loadProductPort.loadLowestPriceProductsByCategory();
 
         AtomicLong totalPrice = new AtomicLong();
 
@@ -59,15 +60,14 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
     @Override
     public LowestPriceSaleBrandDto getLowestPriceCategoryProductsByBrand() {
 
-        List<String> brandList = productPersistencePort.loadAllBrandIncludingAllCategories(Category.getCategoryCount());
+        List<String> brandList = loadProductPort.loadAllBrandIncludingAllCategories(Category.getCategoryCount());
 
-        List<AllCategoryPriceSum> allCategoryPriceSumList =
-                productPersistencePort.loadAllCategoryPriceSumByBrand(brandList);
+        List<AllCategoryPriceSum> allCategoryPriceSumList = loadProductPort.loadAllCategoryPriceSumByBrand(brandList);
 
         AllCategoryPriceSum allCategoryPriceSum = allCategoryPriceSumList.get(0);
 
         List<ProductDomain> lowestPriceCategoryProducts =
-                productPersistencePort.loadLowestPriceCategoryProductsByBrand(allCategoryPriceSum.getBrand());
+                loadProductPort.loadLowestPriceCategoryProductsByBrand(allCategoryPriceSum.getBrand());
 
         LowestPriceSaleBrandDto.LowestPriceSaleBrand lowestPriceSaleBrand =
                 LowestPriceSaleBrandDto.LowestPriceSaleBrand.builder().brand(allCategoryPriceSum.getBrand())
@@ -81,12 +81,12 @@ class ProductService implements GetProductUseCase, EnrollProductUseCase, UpdateP
     @Override
     public LowestHighestPriceBrandDto getLowestHighestPriceBrandByCategory(Category category) {
 
-        List<ProductDomain> lowestPriceProducts = productPersistencePort.loadLowestPriceBrandByCategory(category);
+        List<ProductDomain> lowestPriceProducts = loadProductPort.loadLowestPriceBrandByCategory(category);
 
         List<LowestHighestPriceBrandDto.BrandProduct> lowestPriceBrandList =
                 lowestPriceProducts.stream().map(productServiceMapper::toBrandProduct).toList();
 
-        List<ProductDomain> highestPriceProducts = productPersistencePort.loadHighestPriceBrandByCategory(category);
+        List<ProductDomain> highestPriceProducts = loadProductPort.loadHighestPriceBrandByCategory(category);
 
         List<LowestHighestPriceBrandDto.BrandProduct> highestPriceBrandList =
                 highestPriceProducts.stream().map(productServiceMapper::toBrandProduct).toList();
