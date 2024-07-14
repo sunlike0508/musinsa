@@ -68,7 +68,7 @@ class ProductCodiControllerTest {
 
         given(getProductUseCase.getLowestPriceCategoryProductsByBrand()).willReturn(lowestPriceProductDto);
 
-        this.mockMvc.perform(get("/products/brands/lowest-price-brand").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/products/brands/lowest-price-categories").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(ProductControllerDocument.getLowestPriceCategoryProductsByBrand());
     }
 

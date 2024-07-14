@@ -39,7 +39,7 @@ public class ProductCodiController {
      *
      * @return LowestPriceSaleBrandDto
      */
-    @GetMapping("products/brands/lowest-price-brand")
+    @GetMapping("products/brands/lowest-price-categories")
     public ResponseEntity<LowestPriceSaleBrandDto> getLowestPriceCategoryProductsByBrand() {
 
         LowestPriceSaleBrandDto lowestPriceProductDto = getProductUseCase.getLowestPriceCategoryProductsByBrand();
